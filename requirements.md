@@ -5,9 +5,12 @@
     - Inventāra saraksts tiek glabāts kā Python vārdnīca. Lai nebūtu dati
       jāievada katru reizi no jauna, programmā var "iekodēt" sākotnējo grāmatu
       sarakstu.
+
     - Par katru grāmatu tiek glabāta vismaz šāda informācija: title, author,
       ISBN, price un quantity in stock.
+
     - Katras grāmatas informācija tiek glabāta atsevišķā vārdnīcā
+
     - Inventāra saraksta vārdnīcas atslēgas ir ISBN kodi un tās vērtības ir
       vārdnīcas ar informāciju par grāmatu.
 
