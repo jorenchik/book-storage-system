@@ -4,12 +4,6 @@ from pathlib import Path
 import controller
 
 
-def print_books():
-    for i, book in enumerate(books):
-        for i, val in book.__dict__().items():
-            print(i, val, sep=": ")
-
-
 if __name__ == "__main__":
     book_path = Path('books.json')
     books = []

@@ -1,4 +1,4 @@
-from view import create_book_from_input
+from view import *
 from model import Book
 from typing import List
 
@@ -26,7 +26,7 @@ def search_book_by_arg_option():
 
 
 def list_books_option():
-    pass
+    print_books()
 
 
 def delete_book_option():

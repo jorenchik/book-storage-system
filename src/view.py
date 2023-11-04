@@ -9,3 +9,9 @@ def create_book_from_input() -> Dict:
     price: float = input("Enter the PRICE:")
     quantity_in_stock: int = input("Enter the QUANTITY:")
     return Book(isbn, title, author, price, quantity_in_stock)
+
+
+def print_books():
+    for i, book in enumerate(books):
+        for i, val in book.__dict__().items():
+            print(i, val, sep=": ")
