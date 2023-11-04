@@ -1,6 +1,7 @@
 from typing import Dict
 from copy import deepcopy
 from model import Book
+from view import create_book_from_input
 
 
 book: Dict = {"ISBN": 12435324242432,
@@ -34,14 +35,6 @@ def delete_book_option():
 if __name__ == "__main__":
     book = Book(12435324242432, "Pride and prejudice", "John Doe", 12.2, 5)
     books = [book]
-
-    def create_book_from_input() -> Dict:
-        isbn: str = input("Enter the ISBN:")
-        title: str = input("Enter the TITLE:")
-        author: str = input("Enter the AUTHOR:")
-        price: float = input("Enter the PRICE:")
-        quantity_in_stock: int = input("Enter the QUANTITY:")
-        return Book(isbn, title, author, price, quantity_in_stock)
 
     menu_options = {'Add book': add_book_option,
                     'Search a book': search_book_by_arg_option,
