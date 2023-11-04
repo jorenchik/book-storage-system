@@ -1,14 +1,8 @@
 from typing import Dict
 from model import Book
 from view import create_book_from_input
-
-
-book: Dict = {"ISBN": 12435324242432,
-              "title": "Pride and prejudice",
-              "author": "John Doe",
-              "price": 12.2,
-              "quantity_in_stock": 5
-              }
+from json import load
+from pathlib import Path
 
 
 def add_book_option():
@@ -38,8 +32,19 @@ def print_books():
 
 
 if __name__ == "__main__":
-    book = Book(12435324242432, "Pride and prejudice", "John Doe", 12.2, 5)
-    books = [book]
+    book_path = Path('books.json')
+    books = []
+    with open(book_path,) as f:
+        json_object = load(f)
+        book_dicts = json_object['books']
+
+    for book_dict in book_dicts:
+        book = Book(book_dict["isbn"],
+                    book_dict["title"],
+                    book_dict["author"],
+                    book_dict["price"],
+                    book_dict["quantity_in_stock"])
+        books.append(book)
 
     menu_options = {'Add book': add_book_option,
                     'Search a book': search_book_by_arg_option,
