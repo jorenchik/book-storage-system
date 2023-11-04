@@ -1,5 +1,4 @@
 from typing import Dict
-from model import Book
 from json import load
 from pathlib import Path
 import controller
@@ -19,11 +18,11 @@ if __name__ == "__main__":
         book_dicts = json_object['books']
 
     for book_dict in book_dicts:
-        book = Book(book_dict["isbn"],
-                    book_dict["title"],
-                    book_dict["author"],
-                    book_dict["price"],
-                    book_dict["quantity_in_stock"])
+        book = controller.create_book(book_dict["isbn"],
+                                      book_dict["title"],
+                                      book_dict["author"],
+                                      book_dict["price"],
+                                      book_dict["quantity_in_stock"])
         books.append(book)
 
     menu_options = {'Add book': controller.add_book_option,

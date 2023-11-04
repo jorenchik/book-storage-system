@@ -4,7 +4,17 @@ from typing import List
 
 
 def add_book_option(books: List[Book]):
-    books.append(create_book_from_input())
+    book = create_book_from_input()
+    books.append(book)
+
+
+def validate_book(isbn, title, author, price, quantity_in_stock):
+    pass
+
+
+def create_book(isbn, title, author, price, quantity_in_stock):
+    # TODO: Validation logic
+    return Book(isbn, title, author, price, quantity_in_stock)
 
 
 def search_book_option():
