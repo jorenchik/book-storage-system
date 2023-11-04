@@ -17,9 +17,9 @@ def create_book(isbn, title, author, price, quantity_in_stock) -> Book:
     return book
 
 
-def search_book_option():
-    # TODO: loop over books and match by isbn
-    pass
+def search_book_isbn_option() -> None:
+    prompt = input("Search:")
+    print(Book.search_by_attributes(prompt, books, ["isbn"]))
 
 
 def search_book_by_arg_option():
@@ -83,6 +83,6 @@ books = load_json_from_storage()
 menu_options = {'Exit': exit_option,
                 'Add book': add_book_option,
                 'Search a book': search_book_by_arg_option,
-                'Search a book (ISBN)': search_book_option,
+                'Search a book (ISBN)': search_book_isbn_option,
                 'List books': list_books_option,
                 'Delete book': delete_book_option}

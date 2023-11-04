@@ -1,3 +1,7 @@
+from typing import List
+from re import match
+
+
 class Book:
     isbn: str
     title: str
@@ -7,6 +11,15 @@ class Book:
 
     LENGTH_ERROR = "{ATTR_NAME} should contain between {MIN_LENGTH}-{MAX_LENGTH} symbols"
     REQUIRED_ERROR = "{ATTR_NAME} is required"
+
+    @classmethod
+    def search_by_attributes(cls, prompt, books, attribute_list) -> List:
+        results = []
+        for attr in attribute_list:
+            for book in books:
+                if str(getattr(book, attr)).__contains__(str(prompt)):
+                    results.append(book)
+        return results
 
     __slots__ = ["isbn", "title", "author", "price", "quantity_in_stock"]
 
