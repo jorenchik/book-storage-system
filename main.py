@@ -31,6 +31,12 @@ def delete_book_option():
     pass
 
 
+def print_books():
+    for i, book in enumerate(books):
+        for i, val in book.__dict__().items():
+            print(i, val, sep=": ")
+
+
 if __name__ == "__main__":
     book = Book(12435324242432, "Pride and prejudice", "John Doe", 12.2, 5)
     books = [book]
@@ -45,6 +51,4 @@ if __name__ == "__main__":
     for i, val in enumerate(menu_options):
         print(i, val, sep=": ")
 
-for i, book in enumerate(books):
-    for i, val in book.__dict__().items():
-        print(i, val, sep=": ")
+    print_books()
