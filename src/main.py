@@ -30,8 +30,3 @@ if __name__ == "__main__":
                     'Search a book (ISBN)': controller.search_book_option,
                     'List books': controller.list_books_option,
                     'Delete book': controller.delete_book_option}
-
-    for i, val in enumerate(menu_options):
-        print(i, val, sep=": ")
-
-    print_books()
