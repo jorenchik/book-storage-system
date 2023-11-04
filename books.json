@@ -1,0 +1,11 @@
+{
+    "books": [
+        {
+            "isbn": 12435324242432,
+            "title": "Pride and prejudice",
+            "author": "John Doe",
+            "price": 12.2,
+            "quantity_in_stock": 5
+        }
+    ]
+}
