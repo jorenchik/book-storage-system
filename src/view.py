@@ -1,5 +1,6 @@
 from typing import Dict
 from model import Book
+from tabulate import tabulate
 
 
 def create_book_from_input() -> Dict:
@@ -12,6 +13,11 @@ def create_book_from_input() -> Dict:
 
 
 def print_books(books):
+    table = []
     for i, book in enumerate(books):
+        tr = []
         for key in Book.__slots__:
-            print(key, getattr(book, key), sep=": ")
+            tr.append(getattr(book, key))
+        table.append(tr)
+
+    print(tabulate(table, headers=Book.__slots__, tablefmt='psql', showindex=False))
