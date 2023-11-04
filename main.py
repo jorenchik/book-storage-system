@@ -1,5 +1,4 @@
 from typing import Dict
-from copy import deepcopy
 from model import Book
 from view import create_book_from_input
 
