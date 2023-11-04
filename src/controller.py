@@ -1,4 +1,4 @@
-from view import *
+from view import print_books, create_book_from_input
 from model import Book
 from typing import List
 from json import load
@@ -38,7 +38,7 @@ def delete_book_option():
 
 def menu_option(menu_options):
     # TODO: choose show behaviour
-    print_menu(menu_options)
+    print_menu_cli(menu_options)
 
 
 def exit_option():
@@ -65,4 +65,23 @@ def load_json_from_storage() -> List[Book]:
     return books
 
 
+def print_menu_cli(menu_options):
+    for i, val in enumerate(menu_options):
+        print(i, val, sep=": ")
+
+
+def main_loop():
+    while True:
+        print_menu_cli(menu_options)
+        option_index = int(input(">"))
+        list(menu_options.values())[option_index]()
+
+
 books = load_json_from_storage()
+
+menu_options = {'Exit': exit_option,
+                'Add book': add_book_option,
+                'Search a book': search_book_by_arg_option,
+                'Search a book (ISBN)': search_book_option,
+                'List books': list_books_option,
+                'Delete book': delete_book_option}

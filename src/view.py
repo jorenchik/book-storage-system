@@ -15,8 +15,3 @@ def print_books(books):
     for i, book in enumerate(books):
         for i, val in book.__dict__().items():
             print(i, val, sep=": ")
-
-
-def print_menu(menu_options):
-    for i, val in enumerate(menu_options):
-        print(i, val, sep=": ")

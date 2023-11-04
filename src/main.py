@@ -1,7 +1,6 @@
 from typing import Dict
-import menu
+from controller import main_loop
 
 
 if __name__ == "__main__":
-
-    menu.main_loop()
+    main_loop()
