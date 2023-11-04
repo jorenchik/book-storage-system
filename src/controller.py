@@ -11,20 +11,19 @@ def add_book_option():
     books.append(book)
 
 
-def validate_book(isbn, title, author, price, quantity_in_stock):
-    pass
-
-
-def create_book(isbn, title, author, price, quantity_in_stock):
-    # TODO: Validation logic
-    return Book(isbn, title, author, price, quantity_in_stock)
+def create_book(isbn, title, author, price, quantity_in_stock) -> Book:
+    # TODO: validatio
+    book = Book(isbn, title, author, price, quantity_in_stock)
+    return book
 
 
 def search_book_option():
+    # TODO: loop over books and match by isbn
     pass
 
 
 def search_book_by_arg_option():
+    # loop over books and match by
     pass
 
 
@@ -33,6 +32,8 @@ def list_books_option():
 
 
 def delete_book_option():
+    # TODO: call search
+    # TODO: delete book
     pass
 
 
@@ -42,7 +43,7 @@ def menu_option(menu_options):
 
 
 def exit_option():
-    # Save?
+    # TODO: Save prompt and save call?
     sys.exit(0)
     return
 
