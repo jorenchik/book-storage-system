@@ -10,7 +10,7 @@ class Book:
 
 
     def __init__(self, isbn, title, author, price, quantity_in_stock):
-        self.isbn = isbn
+        self.isbn = str(isbn)
         self.title = title
         self.author = author
         self.price = price

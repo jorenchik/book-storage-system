@@ -1,7 +1,7 @@
 {
     "books": [
         {
-            "isbn": 12435324242432,
+            "isbn": "978-3-16-148410-0",
             "title": "Pride and prejudice",
             "author": "John Doe",
             "price": 12.2,
