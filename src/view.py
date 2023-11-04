@@ -13,5 +13,5 @@ def create_book_from_input() -> Dict:
 
 def print_books(books):
     for i, book in enumerate(books):
-        for i, val in book.__dict__().items():
-            print(i, val, sep=": ")
+        for key in Book.__slots__:
+            print(key, getattr(book, key), sep=": ")
