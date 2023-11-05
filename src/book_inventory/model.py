@@ -17,10 +17,11 @@ class Book:
     @classmethod
     def search_by_attributes(cls, prompt, books, attribute_list) -> List:
         results = []
-        for attr in attribute_list:
-            for book in books:
+        for book in books:
+            for attr in attribute_list:
                 if str(getattr(book, attr)).__contains__(str(prompt)):
                     results.append(book)
+                    break
         return results
 
     __slots__ = ["isbn", "title", "author", "price", "quantity_in_stock"]
