@@ -22,7 +22,9 @@ class BookController:
         print_books(results)
 
     def search_book_by_arg_option(self) -> None:
-        pass
+        prompt = input("Search:")
+        results = Book.search_by_attributes(prompt, self.books, Book.__slots__)
+        print_books(results)
 
     def list_books_option(self) -> None:
         print_books(self.inventory.books)
