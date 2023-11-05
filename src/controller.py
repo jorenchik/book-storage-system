@@ -17,8 +17,8 @@ class BookController:
         book = create_book_from_input()
         self.books.append(book)
 
-    def create_book(self, isbn, title, author, price,
-                    quantity_in_stock) -> Book:
+    def create_book(self, isbn: str, title: str, author: str, price: float,
+                    quantity_in_stock: int) -> Book:
         book = Book(isbn, title, author, price, quantity_in_stock)
         return book
 
@@ -30,13 +30,13 @@ class BookController:
     def search_book_by_arg_option(self) -> None:
         pass
 
-    def list_books_option(self):
+    def list_books_option(self) -> None:
         print_books(self.books)
 
-    def delete_book_option(self):
+    def delete_book_option(self) -> None:
         pass
 
-    def exit_option(self):
+    def exit_option(self) -> None:
         sys.exit(0)
 
     def load_json_from_storage(self) -> List[Book]:
@@ -45,10 +45,10 @@ class BookController:
             json_object = load(f)
             book_dicts = json_object['books']
         results = []
+
         for book_dict in book_dicts:
             book = self.create_book(book_dict["isbn"], book_dict["title"],
                                     book_dict["author"], book_dict["price"],
                                     book_dict["quantity_in_stock"])
             results.append(book)
-
         return results
