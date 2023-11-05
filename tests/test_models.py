@@ -50,3 +50,8 @@ class SearchBooksTestCase(unittest.TestCase):
         self.assertEqual(
             results, [self.books[0]],
             "Results of empty search prompt should return every book")
+
+    def test_search_book_raises_attribute_exception_on_non_existing_search_prompt(
+            self):
+        self.assertRaises(AttributeError, Book.search_by_attributes, "prompt",
+                          [self.books[0]], ["non-existing"])
