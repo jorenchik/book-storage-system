@@ -1,5 +1,5 @@
 from typing import Dict
-from model import Book
+from .model import Book
 from tabulate import tabulate
 
 
@@ -9,13 +9,7 @@ def create_book_from_input() -> Dict:
     author: str = input("Enter the AUTHOR:")
     price: str = input("Enter the PRICE:")
     quantity_in_stock: str = input("Enter the QUANTITY:")
-    return {
-        "isbn": isbn,
-        "title": title,
-        "author": author,
-        "price": price,
-        "quantity_in_stock": quantity_in_stock,
-    }
+    return isbn, title, author, price, quantity_in_stock
 
 
 def print_books(books):
