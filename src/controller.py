@@ -17,7 +17,8 @@ class BookController:
         book = create_book_from_input()
         self.books.append(book)
 
-    def create_book(self, isbn, title, author, price, quantity_in_stock) -> Book:
+    def create_book(self, isbn, title, author, price,
+                    quantity_in_stock) -> Book:
         # TODO: validatio
         book = Book(isbn, title, author, price, quantity_in_stock)
         return book
@@ -44,15 +45,13 @@ class BookController:
 
     def load_json_from_storage(self) -> List[Book]:
         book_path = Path('books.json')
-        with open(book_path,) as f:
+        with open(book_path, ) as f:
             json_object = load(f)
             book_dicts = json_object['books']
         results = []
         for book_dict in book_dicts:
-            book = self.create_book(book_dict["isbn"],
-                                    book_dict["title"],
-                                    book_dict["author"],
-                                    book_dict["price"],
+            book = self.create_book(book_dict["isbn"], book_dict["title"],
+                                    book_dict["author"], book_dict["price"],
                                     book_dict["quantity_in_stock"])
             results.append(book)
 

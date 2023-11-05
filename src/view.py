@@ -20,4 +20,8 @@ def print_books(books):
             tr.append(getattr(book, key))
         table.append(tr)
 
-    print(tabulate(table, headers=Book.__slots__, tablefmt='psql', showindex=False))
+    print(
+        tabulate(table,
+                 headers=Book.__slots__,
+                 tablefmt='psql',
+                 showindex=False))
