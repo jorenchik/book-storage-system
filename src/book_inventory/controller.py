@@ -1,6 +1,6 @@
-from view import print_books, create_book_from_input
+from .view import print_books, create_book_from_input
 from .model import Book
-from stores import Inventory
+from .stores import Inventory
 import sys
 
 
