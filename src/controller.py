@@ -13,34 +13,30 @@ class BookController:
     def __init__(self):
         self.books = self.load_json_from_storage()
 
-    def add_book_option(self):
+    def add_book_option(self) -> None:
         book = create_book_from_input()
         self.books.append(book)
 
     def create_book(self, isbn, title, author, price,
                     quantity_in_stock) -> Book:
-        # TODO: validatio
         book = Book(isbn, title, author, price, quantity_in_stock)
         return book
 
-    def search_book_isbn_option(self):
+    def search_book_isbn_option(self) -> None:
         prompt = input("Search:")
-        print(Book.search_by_attributes(prompt, self.books, ["isbn"]))
+        results = Book.search_by_attributes(prompt, self.books, ["isbn"])
+        print_books(results)
 
-    def search_book_by_arg_option(self):
-        # loop over books and match by
+    def search_book_by_arg_option(self) -> None:
         pass
 
     def list_books_option(self):
         print_books(self.books)
 
     def delete_book_option(self):
-        # TODO: call search
-        # TODO: delete book
         pass
 
     def exit_option(self):
-        # TODO: Save prompt and save call?
         sys.exit(0)
 
     def load_json_from_storage(self) -> List[Book]:
