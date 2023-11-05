@@ -14,13 +14,15 @@ class BookController:
         self.books = self.load_json_from_storage()
 
     def add_book_option(self) -> None:
-        book = create_book_from_input()
+        book_values: dict = create_book_from_input()
+        book = Book(
+            book_values.get("isbn"),
+            book_values.get("title"),
+            book_values.get("author"),
+            book_values.get("price"),
+            book_values.get("quantity_in_stock"),
+        )
         self.books.append(book)
-
-    def create_book(self, isbn: str, title: str, author: str, price: float,
-                    quantity_in_stock: int) -> Book:
-        book = Book(isbn, title, author, price, quantity_in_stock)
-        return book
 
     def search_book_isbn_option(self) -> None:
         prompt = input("Search:")
@@ -47,8 +49,8 @@ class BookController:
         results = []
 
         for book_dict in book_dicts:
-            book = self.create_book(book_dict["isbn"], book_dict["title"],
-                                    book_dict["author"], book_dict["price"],
-                                    book_dict["quantity_in_stock"])
+            book = Book(book_dict["isbn"], book_dict["title"],
+                        book_dict["author"], book_dict["price"],
+                        book_dict["quantity_in_stock"])
             results.append(book)
         return results

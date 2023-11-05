@@ -7,9 +7,15 @@ def create_book_from_input() -> Dict:
     isbn: str = input("Enter the ISBN:")
     title: str = input("Enter the TITLE:")
     author: str = input("Enter the AUTHOR:")
-    price: float = input("Enter the PRICE:")
-    quantity_in_stock: int = input("Enter the QUANTITY:")
-    return Book(isbn, title, author, price, quantity_in_stock)
+    price: str = input("Enter the PRICE:")
+    quantity_in_stock: str = input("Enter the QUANTITY:")
+    return {
+        "isbn": isbn,
+        "title": title,
+        "author": author,
+        "price": price,
+        "quantity_in_stock": quantity_in_stock,
+    }
 
 
 def print_books(books):
