@@ -10,13 +10,8 @@ class BookController:
 
     books: List[Book]
 
-    # MOVE TO CONFIG
-    menu_options: Dict
-
     def __init__(self):
         self.books = self.load_json_from_storage()
-        self.menu_options = {'Exit': self.exit_option, 'Add book': self.add_book_option, 'Search a book': self.search_book_by_arg_option,
-                             'Search a book (ISBN)': self.search_book_isbn_option, 'List books': self.list_books_option, 'Delete book': self.delete_book_option}
 
     def add_book_option(self):
         book = create_book_from_input()
@@ -43,10 +38,6 @@ class BookController:
         # TODO: delete book
         pass
 
-    def menu_option(self, menu_options):
-        # TODO: choose show behaviour
-        self.print_menu_cli(self.menu_options)
-
     def exit_option():
         # TODO: Save prompt and save call?
         sys.exit(0)
@@ -66,13 +57,3 @@ class BookController:
             results.append(book)
 
         return results
-
-    def print_menu_cli(self, menu_options):
-        for i, val in enumerate(menu_options):
-            print(i, val, sep=": ")
-
-    def main_loop(self):
-        while True:
-            self.print_menu_cli(self.menu_options)
-            option_index = int(input(">"))
-            list(self.menu_options.values())[option_index]()
