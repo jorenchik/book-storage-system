@@ -38,7 +38,7 @@ class BookController:
         # TODO: delete book
         pass
 
-    def exit_option():
+    def exit_option(self):
         # TODO: Save prompt and save call?
         sys.exit(0)
 
