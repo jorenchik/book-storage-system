@@ -1,6 +1,7 @@
 from typing import Dict
-from controller import main_loop
+from controller import BookController
 
 
 if __name__ == "__main__":
-    main_loop()
+    book_controller = BookController()
+    book_controller.main_loop()
