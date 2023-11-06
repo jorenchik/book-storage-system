@@ -1,6 +1,6 @@
-from .view import BookViewCLI
-from .model import Book
-from .stores import Inventory
+from book_inventory.view import BookViewCLI
+from book_inventory.model import Book
+from book_inventory.stores import Inventory
 import sys
 
 

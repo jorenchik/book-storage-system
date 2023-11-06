@@ -1,5 +1,5 @@
 from typing import Dict
-from menu import Menu
+from book_inventory.menu import Menu
 
 if __name__ == "__main__":
     menu = Menu()
