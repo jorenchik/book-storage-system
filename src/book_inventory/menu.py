@@ -26,7 +26,9 @@ class Menu:
             },
             "4": {
                 "name": "List books",
-                "function": self.book_controller.index
+                "function": self.book_controller.index,
+                "args":
+                [self.book_controller.inventory, self.book_controller.view]
             },
             "5": {
                 "name": "Delete book",
@@ -40,9 +42,12 @@ class Menu:
 
     def menu_loop(self):
         while True:
-            option = input("> ")
-            print(self.menu_options.get(option)["function"])
-            self.menu_options.get(option)["function"]()
+            choice = input("> ")
+            option: tuple = self.menu_options.get(choice)
+            if "args" in option:
+                option["function"](*option["args"])
+            else:
+                option["function"]()
 
     def menu_option(self):
         # TODO: choose show behaviour
