@@ -12,7 +12,7 @@ class Inventory:
 
     def create_books_from_dict(self, book_data_list) -> None:
         for book_data in book_data_list:
-            book = Book(*book_data)
+            book = Book(*book_data.values())
             self.books.append(book)
 
     def get_file_contents(self, filename: str) -> str:
