@@ -27,26 +27,25 @@ class SearchByArgumentsTestCase(unittest.TestCase):
         view = MagicMock()
         inventory = MagicMock()
         inventory.books = [self.books[0]]
-        self.book_controller.list_books_option(inventory, view)
+        self.book_controller.index(inventory, view)
         view.print_books.assert_called_once_with(inventory.books)
 
     def test_print_without_books_given(self):
         view = MagicMock()
         inventory = MagicMock()
         inventory.books = []
-        self.book_controller.list_books_option(inventory, view)
+        self.book_controller.index(inventory, view)
         view.print_books.assert_called_once_with(inventory.books)
 
     def test_print_invalid_inventory_supplied(self):
         view = MagicMock()
         inventory = MagicMock(spec=[])
-        self.assertRaises(AttributeError,
-                          self.book_controller.list_books_option, inventory,
-                          view)
+        self.assertRaises(AttributeError, self.book_controller.index,
+                          inventory, view)
 
     def test_print_invalid_view_supplied(self):
         view = MagicMock(spec=[])
         inventory = MagicMock()
-        self.assertRaises(AttributeError,
-                          self.book_controller.list_books_option, inventory,
-                          view)
+        self.assertRaises(AttributeError, self.book_controller.index,
+                          inventory, view)
+

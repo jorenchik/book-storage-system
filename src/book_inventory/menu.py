@@ -10,27 +10,27 @@ class Menu:
         self.menu_options = {
             "0": {
                 "name": "Exit",
-                "function": self.book_controller.exit_option
+                "function": self.book_controller.exit
             },
             "1": {
                 "name": "Add book",
-                "function": self.book_controller.add_book_option
+                "function": self.book_controller.create_book
             },
             "2": {
                 "name": "Search a book",
-                "function": self.book_controller.search_book_by_arg_option
+                "function": self.book_controller.search_book_by_all_slots
             },
             "3": {
                 "name": "Search a book (ISBN)",
-                "function": self.book_controller.search_book_isbn_option
+                "function": self.book_controller.search_book_by_isbn
             },
             "4": {
                 "name": "List books",
-                "function": self.book_controller.list_books_option
+                "function": self.book_controller.index
             },
             "5": {
                 "name": "Delete book",
-                "function": self.book_controller.delete_book_option
+                "function": self.book_controller.delete_book_by_isbn
             },
             "?": {
                 "name": "Help",
