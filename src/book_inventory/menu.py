@@ -1,6 +1,17 @@
 from controller import BookController
 
 
+class BookIndexCommand:
+
+    def __init__(self):
+        self.book_controller = BookController()
+
+    def execute(self):
+        inventory = self.book_controller.inventory
+        view = self.book_controller.view
+        self.book_controller.index(inventory, view)
+
+
 class Menu:
     menu_options: dict
     book_controller: BookController
@@ -46,6 +57,8 @@ class Menu:
             option: tuple = self.menu_options.get(choice)
             if "args" in option:
                 option["function"](*option["args"])
+            elif option["name"] == "List books":
+                BookIndexCommand().execute()
             else:
                 option["function"]()
 
