@@ -10,9 +10,18 @@ class Inventory:
     def __init__(self):
         self.books: list[Book] = []
 
-    def create_books_from_dict(self, book_data_list) -> None:
-        for book_data in book_data_list:
+    def create_books_from_dict(self, book_data_dict) -> None:
+        for book_data in book_data_dict:
             book = Book(*book_data.values())
+            self.books.append(book)
+
+    def create_books_from_list(self, book_data_list) -> None:
+        for book_data in book_data_list:
+            if (len(book_data) != len(Book.__slots__)):
+                raise TypeError(
+                    "Provided list(-/s) element count doesn't match __slots__ element count"
+                )
+            book = Book(*book_data)
             self.books.append(book)
 
     def get_file_contents(self, filename: str) -> str:
