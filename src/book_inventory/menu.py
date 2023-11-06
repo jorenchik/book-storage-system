@@ -1,9 +1,9 @@
 from controller import BookController
 
 
-class BookIndexCommand:
+class IndexBooksCommand:
 
-    def __init__(self):
+    def __init__(self, book_controller):
         self.book_controller = BookController()
 
     def execute(self):
@@ -58,7 +58,7 @@ class Menu:
             if "args" in option:
                 option["function"](*option["args"])
             elif option["name"] == "List books":
-                BookIndexCommand().execute()
+                IndexBooksCommand(self.book_controller).execute()
             else:
                 option["function"]()
 
