@@ -12,7 +12,7 @@ class BookController:
         self.inventory.load_json_from_storage()
 
     def add_book_option(self) -> None:
-        book_data: tuple = create_book_from_input()
+        book_data: tuple = self.view.create_book_from_input()
         book = Book(*book_data)
         self.inventory.books.append(book)
 
