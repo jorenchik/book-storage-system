@@ -15,15 +15,14 @@ class Menu:
         self.inventory = Inventory()
 
         self.menu_options = {
-            "0":
-            self.exit_option,
+            "0": ("Exit", self.exit_option),
             "1":
             commands.CreateBookCommand(
                 self.book_controller,
                 self.inventory,
             ),
-            "2": {},
-            "3": {},
+            # "2": {},
+            # "3": {},
             "4":
             commands.IndexBooksCommand(
                 self.book_controller,
@@ -35,15 +34,17 @@ class Menu:
                 self.book_controller,
                 self.inventory,
             ),
-            "?":
-            self.menu_option,
+            "?": ("Help", self.menu_option),
         }
 
     def execute_option(self, option):
         if option not in self.menu_options:
             raise (ValueError(f"Option '{option}' does not exist"))
         action = self.menu_options.get(option)
-        action.execute() if isinstance(action, commands.Command) else action()
+        if isinstance(action, commands.Command):
+            action.execute()
+        else:
+            action[1]()
 
     def menu_loop(self):
         while True:
@@ -60,8 +61,28 @@ class Menu:
         self.print_menu_cli()
 
     def print_menu_cli(self):
-        for key, val in self.menu_options.items():
-            print(key, val["name"], sep=": ")
+        for entry in self.get_menu_entries():
+            print(entry)
+
+    def get_menu_entries(self) -> list[str]:
+        entries = []
+        for key, option in self.menu_options.items():
+            entries.append(self.get_option_entry(key, option))
+        return entries
+
+    def get_option_entry(self, key, option):
+        if isinstance(option, commands.Command):
+            name = option.name
+        elif isinstance(option, tuple):
+            name = self.get_option_name_from_tuple(option)
+        else:
+            raise TypeError("Invalid option (not tuple or command)")
+        return f"{key}: {name}"
+
+    def get_option_name_from_tuple(self, option: tuple) -> str:
+        if len(option) != 2:
+            raise ValueError("Invalid tuple option")
+        return option[0]
 
 
 # TODO: make commands for each option

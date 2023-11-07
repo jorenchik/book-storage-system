@@ -7,6 +7,7 @@ from book_inventory.view import BookViewCLI
 
 class Command:
     controller_method_name: str
+    name: str
 
     def execute(self):
         pass
@@ -14,6 +15,7 @@ class Command:
 
 class IndexBooksCommand(Command):
     controller_method_name: str = "index"
+    name = "List"
 
     def __init__(self, book_controller, inventory, view):
         self.book_controller = book_controller
@@ -29,6 +31,7 @@ class IndexBooksCommand(Command):
 
 class CreateBookCommand(Command):
     controller_method_name: str = "create_book"
+    name = "Create"
 
     def __init__(self, book_controller, inventory):
         self.book_controller = book_controller
@@ -41,6 +44,7 @@ class CreateBookCommand(Command):
 
 class DeleteBookCommand(Command):
     controller_method_name: str = "delete_option"
+    name = "Delete"
 
     def __init__(self, controller, inventory):
         self.controller = controller
