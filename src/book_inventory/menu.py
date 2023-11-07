@@ -113,6 +113,9 @@ class Menu:
 #         "name": "Delete book",
 #         "command": self.book_controller.delete_book_by_isbn
 #     },
+#     "6": {
+#         "name": "Edit Book",
+#     },
 #     "?": {
 #         "name": "Help",
 #         "command": self.print_menu_cli
