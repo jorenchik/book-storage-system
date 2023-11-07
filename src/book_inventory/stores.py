@@ -24,12 +24,14 @@ class Inventory:
             book = Book(*book_data)
             self.books.append(book)
 
+    # TODO: test
     def get_file_contents(self, filename: str) -> str:
         book_path = Path(filename)
         with open(book_path) as f:
             file_contents = f.read()
         return file_contents
 
+    # TODO: test
     def load_json_from_storage(self, filename=JSON_STORAGE_FILENAME) -> None:
         json: str = self.get_file_contents(filename)
         json_object = loads(json)
@@ -38,10 +40,11 @@ class Inventory:
 
     def find_one_book(self, key: str, attributes: list[str]) -> Book:
         results = Book.search_by_attributes(key, self.books, attributes)
-        if len(results) < 1:
+        count = len(results)
+        if count < 1:
             raise ValueError("Book was not found")
-        if len(results) > 1:
-            raise ValueError("More than one book is found")
+        if count > 1:
+            raise ValueError(f"More than one book is found: {count}")
         return results[0]
 
     def delete(self, key: str) -> None:

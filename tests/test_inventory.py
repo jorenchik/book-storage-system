@@ -83,3 +83,26 @@ class BookDeletionTestCase(unittest.TestCase):
     def test_gives_value_error_if_multiple_books_were_found(self):
         self.inventory.books[1].isbn = "111111"
         self.assertRaises(ValueError, self.inventory.delete, "1111")
+
+
+class FindOneTest(unittest.TestCase):
+
+    def setUp(self):
+        self.inventory = Inventory()
+        self.inventory.books = [MagicMock(), MagicMock()]
+        self.inventory.books[0].isbn = "1111"
+        self.inventory.books[1].isbn = "2222"
+
+    def test_finds_one_existing_book(self):
+        result = self.inventory.find_one_book("1111", ["isbn"])
+        self.assertEqual(result, self.inventory.books[0])
+
+    def test_raises_value_error_if_not_found(self):
+        self.assertRaises(ValueError, self.inventory.find_one_book, "3333",
+                          ["isbn"])
+
+    def test_raises_value_error_if_found_more_then_one(self):
+        self.inventory.books[0].isbn = "1111"
+        self.inventory.books[1].isbn = "111111"
+        self.assertRaises(ValueError, self.inventory.find_one_book, "1111",
+                          ["isbn"])
