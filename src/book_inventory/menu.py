@@ -24,7 +24,8 @@ class Menu:
                                        self.view),
             "5":
             commands.DeleteBookCommand(self.book_controller, self.inventory),
-            "?": {},
+            "?":
+            self.menu_option,
         }
 
     def execute_option(self, option):
@@ -46,7 +47,7 @@ class Menu:
 
     def menu_option(self):
         # TODO: choose show behaviour
-        self.print_menu_cli(self.menu_options)
+        self.print_menu_cli()
 
     def print_menu_cli(self):
         for key, val in self.menu_options.items():
