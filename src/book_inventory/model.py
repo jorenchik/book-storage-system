@@ -14,8 +14,10 @@ class Book:
     LENGTH_ERROR = "{ATTR_NAME} should contain between {MIN_LENGTH}-{MAX_LENGTH} symbols"
     REQUIRED_ERROR = "{ATTR_NAME} is required"
 
+    ATTRIBUTE_LENGTH_ERROR = "Provided list(-/s) element count doesn't match __slots__ element count"
+
     @classmethod
-    def search_by_attributes(cls, prompt, books, attribute_list) -> List:
+    def search_by_attributes(cls, prompt, books, attribute_list) -> list:
         results = []
         for book in books:
             for attr in attribute_list:

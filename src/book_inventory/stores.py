@@ -17,10 +17,8 @@ class Inventory:
 
     def create_books_from_list(self, book_data_list) -> None:
         for book_data in book_data_list:
-            if (len(book_data) != len(Book.__slots__)):
-                raise TypeError(
-                    "Provided list(-/s) element count doesn't match __slots__ element count"
-                )
+            if not self.check_book_creation_data(book_data):
+                raise TypeError(Book.ATTRIBUTE_LENGTH_ERROR)
             book = Book(*book_data)
             self.books.append(book)
 
@@ -50,3 +48,17 @@ class Inventory:
     def delete(self, key: str) -> None:
         book_to_remove = self.find_one_book(key, ["isbn"])
         self.books.remove(book_to_remove)
+
+    def check_unique_isbn(self, isbn: str) -> bool:
+        if not isinstance(isbn, str):
+            raise TypeError("ISBN should be a string")
+        return isbn not in [book.isbn for book in self.books]
+
+    def check_book_creation_data(self, book_data: list[str]) -> bool:
+        return len(book_data) == len(Book.__slots__)
+
+    def update(self, isbn: str, updated_book: Book) -> None:
+        search_isbn = isbn
+        to_update_book = self.find_one_book(search_isbn, ["isbn"])
+        self.books.remove(to_update_book)
+        self.books.append(updated_book)

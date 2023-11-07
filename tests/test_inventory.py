@@ -2,6 +2,7 @@ import unittest
 from unittest.mock import patch, mock_open, MagicMock
 from book_inventory.model import Book
 from book_inventory.stores import Inventory
+from copy import deepcopy
 
 
 class InventoryCreationTestCase(unittest.TestCase):
@@ -106,3 +107,42 @@ class FindOneTest(unittest.TestCase):
         self.inventory.books[1].isbn = "111111"
         self.assertRaises(ValueError, self.inventory.find_one_book, "1111",
                           ["isbn"])
+
+
+class CheckIsbnUniqueTest(unittest.TestCase):
+
+    def setUp(self):
+        self.inventory = Inventory()
+        self.inventory.books = [MagicMock()]
+        self.inventory.books[0].isbn = "1111"
+
+    def test_isbn_is_unique(self):
+        result = self.inventory.check_unique_isbn("2222")
+        self.assertTrue(result)
+
+    def test_isbn_is_not_unique(self):
+        result = self.inventory.check_unique_isbn("1111")
+        self.assertFalse(result)
+
+    def test_raises_type_error_if_not_string(self):
+        self.assertRaises(TypeError, self.inventory.check_unique_isbn, 22)
+
+
+class UpdateBookTest(unittest.TestCase):
+
+    def setUp(self):
+        self.inventory = Inventory()
+        self.inventory.books = [MagicMock()]
+        self.inventory.books[0].isbn = "1111"
+        self.inventory.books[0].title = "title"
+
+    def test_finds_and_updates_whole_model(self):
+        new_book = deepcopy(self.inventory.books[0])
+        new_book.title = "new_title"
+        self.inventory.update("1111", new_book)
+        self.assertEqual(self.inventory.books[0].title, "new_title")
+
+    def test_raises_value_error_if_book_is_not_found(self):
+        new_book = deepcopy(self.inventory.books[0])
+        new_book.title = "new_title"
+        self.assertRaises(ValueError, self.inventory.update, "3333", new_book)
