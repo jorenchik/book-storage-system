@@ -2,6 +2,7 @@ from book_inventory.controller import BookController
 from book_inventory import commands
 from book_inventory.view import BookViewCLI
 from book_inventory.stores import Inventory
+import sys
 
 
 class Menu:
@@ -14,7 +15,8 @@ class Menu:
         self.view = BookViewCLI()
         self.inventory = Inventory()
         self.menu_options = {
-            "0": {},
+            "0":
+            self.exit_option,
             "1":
             commands.CreateBookCommand(self.book_controller, self.inventory),
             "2": {},
@@ -44,6 +46,9 @@ class Menu:
             option = self.menu_options.get(choice)
             if option:
                 self.execute_option(choice)
+
+    def exit_option(self):
+        sys.exit(0)
 
     def menu_option(self):
         # TODO: choose show behaviour
