@@ -1,6 +1,7 @@
 from book_inventory.controller import BookController
 from book_inventory import commands
 from book_inventory.view import BookViewCLI
+from book_inventory.stores import Inventory
 
 
 class Menu:
@@ -8,13 +9,21 @@ class Menu:
     book_controller: BookController
 
     def __init__(self):
+
+        self.book_controller = BookController()
+        self.view = BookViewCLI()
+        self.inventory = Inventory()
         self.menu_options = {
             "0": {},
-            "1": commands.CreateBookCommand(),
+            "1":
+            commands.CreateBookCommand(self.book_controller, self.inventory),
             "2": {},
             "3": {},
-            "4": commands.IndexBooksCommand(),
-            "5": commands.DeleteBookCommand(),
+            "4":
+            commands.IndexBooksCommand(self.book_controller, self.inventory,
+                                       self.view),
+            "5":
+            commands.DeleteBookCommand(self.book_controller, self.inventory),
             "?": {},
         }
 

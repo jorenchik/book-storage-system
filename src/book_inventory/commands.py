@@ -8,10 +8,7 @@ from book_inventory.view import BookViewCLI
 class IndexBooksCommand:
     controller_method_name: str = "index"
 
-    def __init__(self,
-                 book_controller=BookController(),
-                 inventory=Inventory(),
-                 view=BookViewCLI()):
+    def __init__(self, book_controller, inventory, view):
         self.book_controller = book_controller
         self.inventory = inventory
         self.inventory.load_json_from_storage()
@@ -26,8 +23,7 @@ class IndexBooksCommand:
 class CreateBookCommand:
     controller_method_name: str = "create_book"
 
-    def __init__(self, book_controller=BookController(),
-                 inventory=Inventory()):
+    def __init__(self, book_controller, inventory):
         self.book_controller = book_controller
         self.inventory = inventory
         self.inventory.load_json_from_storage()
@@ -39,7 +35,7 @@ class CreateBookCommand:
 class DeleteBookCommand:
     controller_method_name: str = "delete_option"
 
-    def __init__(self, controller=BookController(), inventory=Inventory()):
+    def __init__(self, controller, inventory):
         self.controller = controller
         self.inventory = inventory
 
