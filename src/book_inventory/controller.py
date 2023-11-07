@@ -12,18 +12,18 @@ class BookController:
         self.inventory.load_json_from_storage()
         self.model = Inventory()
 
-    def create_book(self) -> None:
+    def create(self) -> None:
         book_data: tuple = self.view.input_book_data()
         book = Book(*book_data)
         self.inventory.books.append(book)
 
-    def search_book_by_isbn(self) -> None:
+    def search_books_by_isbn(self) -> None:
         prompt = input("Search:")
         results = Book.search_by_attributes(prompt, self.inventory.books,
                                             ["isbn"])
         self.view.print_books(results)
 
-    def search_book_by_all_slots(self) -> None:
+    def search_books(self) -> None:
         prompt = input("Search:")
         results = Book.search_by_attributes(prompt, self.books, Book.__slots__)
         self.view.print_books(results)
