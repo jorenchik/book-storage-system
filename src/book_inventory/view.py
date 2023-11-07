@@ -5,7 +5,7 @@ from tabulate import tabulate
 
 class BookViewCLI:
 
-    def create_book_from_input(self) -> Dict:
+    def input_book_data(self) -> Dict:
         isbn: str = input("Enter the ISBN:")
         title: str = input("Enter the TITLE:")
         author: str = input("Enter the AUTHOR:")
