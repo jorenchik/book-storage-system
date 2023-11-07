@@ -17,5 +17,5 @@ class IndexBooksCommand:
         self.view = view
 
     def execute(self):
-        getattr(self.book_controller, self.controller_method_name)(self.books,
-                                                                   self.view)
+        getattr(self.book_controller,
+                self.controller_method_name)(self.inventory, self.view)
