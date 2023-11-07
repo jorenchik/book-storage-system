@@ -34,3 +34,14 @@ class CreateBookCommand:
 
     def execute(self):
         getattr(self.book_controller, self.controller_method_name)()
+
+
+class DeleteBookCommand:
+    controller_method_name: str = "delete_option"
+
+    def __init__(self, controller=BookController(), inventory=Inventory()):
+        self.controller = controller
+        self.inventory = inventory
+
+    def execute(self):
+        getattr(self.controller, self.controller_method_name)()

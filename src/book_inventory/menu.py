@@ -1,5 +1,5 @@
 from book_inventory.controller import BookController
-from book_inventory.commands import IndexBooksCommand, CreateBookCommand
+from book_inventory.commands import IndexBooksCommand, CreateBookCommand, DeleteBookCommand
 from book_inventory.view import BookViewCLI
 
 
@@ -14,7 +14,7 @@ class Menu:
             "2": {},
             "3": {},
             "4": IndexBooksCommand(),
-            "5": {},
+            "5": DeleteBookCommand(),
             "?": {},
         }
 

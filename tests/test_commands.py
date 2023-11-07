@@ -1,6 +1,6 @@
 from unittest import TestCase
 from unittest.mock import MagicMock
-from book_inventory.commands import IndexBooksCommand, CreateBookCommand
+from book_inventory.commands import IndexBooksCommand, CreateBookCommand, DeleteBookCommand
 from book_inventory.controller import BookController
 
 
@@ -38,6 +38,26 @@ class CreateBookCommandTest(TestCase):
     def test_command_executes(self):
         self.command.execute()
         self.controller.create_book.assert_called_once()
+
+    def test_command_raises_type_error_if_no_such_method_exists(self):
+        self.command.controller_method_name = "non-existing"
+        self.assertRaises(
+            TypeError,
+            self.command.execute(),
+        )
+
+
+class DeleteBookCommandTest(TestCase):
+
+    def setUp(self):
+        self.controller = MagicMock()
+        self.inventory = MagicMock()
+        self.command = DeleteBookCommand(self.controller, self.inventory)
+
+    def test_command_executes(self):
+        self.command.execute()
+        getattr(self.command.controller,
+                self.command.controller_method_name).assert_called_once()
 
     def test_command_raises_type_error_if_no_such_method_exists(self):
         self.command.controller_method_name = "non-existing"
