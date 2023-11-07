@@ -10,22 +10,31 @@ class Menu:
     book_controller: BookController
 
     def __init__(self):
-
         self.book_controller = BookController()
         self.view = BookViewCLI()
         self.inventory = Inventory()
+
         self.menu_options = {
             "0":
             self.exit_option,
             "1":
-            commands.CreateBookCommand(self.book_controller, self.inventory),
+            commands.CreateBookCommand(
+                self.book_controller,
+                self.inventory,
+            ),
             "2": {},
             "3": {},
             "4":
-            commands.IndexBooksCommand(self.book_controller, self.inventory,
-                                       self.view),
+            commands.IndexBooksCommand(
+                self.book_controller,
+                self.inventory,
+                self.view,
+            ),
             "5":
-            commands.DeleteBookCommand(self.book_controller, self.inventory),
+            commands.DeleteBookCommand(
+                self.book_controller,
+                self.inventory,
+            ),
             "?":
             self.menu_option,
         }
@@ -33,12 +42,8 @@ class Menu:
     def execute_option(self, option):
         if option not in self.menu_options:
             raise (ValueError(f"Option '{option}' does not exist"))
-
         action = self.menu_options.get(option)
-        if isinstance(action, commands.Command):
-            action.execute()
-        else:
-            action()
+        action.execute() if isinstance(action, commands.Command) else action()
 
     def menu_loop(self):
         while True:
