@@ -1,7 +1,6 @@
 from book_inventory.view import BookViewCLI
 from book_inventory.model import Book
 from book_inventory.stores import Inventory
-import sys
 
 
 class BookController:
@@ -35,6 +34,3 @@ class BookController:
     def delete(self, key: str) -> None:
         if not self.model.delete(key):
             raise ValueError("Book not found")
-
-    def exit(self) -> None:
-        sys.exit(0)
