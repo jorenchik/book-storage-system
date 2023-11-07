@@ -49,3 +49,21 @@ class SearchByArgumentsTestCase(unittest.TestCase):
         self.assertRaises(AttributeError, self.book_controller.index,
                           inventory, view)
 
+
+class DeleteBookTest(unittest.TestCase):
+
+    def setUp(self):
+        self.controller = BookController()
+        self.controller.model = MagicMock()
+        self.controller.model.delete = MagicMock()
+
+    def test_calls_delete_book(self):
+        key = "11111"
+        self.controller.delete(key)
+        self.controller.model.delete.assert_called_once_with(key)
+
+    def test_raises_value_error_if_deletion_failed(self):
+        key = "11111"
+        self.controller.model.delete = MagicMock(spec="callable",
+                                                 return_value=False)
+        self.assertRaises(ValueError, self.controller.delete, key)

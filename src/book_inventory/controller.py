@@ -10,6 +10,7 @@ class BookController:
         self.inventory = Inventory()
         self.view = BookViewCLI()
         self.inventory.load_json_from_storage()
+        self.model = Inventory()
 
     def create_book(self) -> None:
         book_data: tuple = self.view.input_book_data()
@@ -31,8 +32,9 @@ class BookController:
         books_to_print = inventory.books
         view.print_books(books_to_print)
 
-    def delete_book_by_isbn(self) -> None:
-        pass
+    def delete(self, key: str) -> None:
+        if not self.model.delete(key):
+            raise ValueError("Book not found")
 
     def exit(self) -> None:
         sys.exit(0)
