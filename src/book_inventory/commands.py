@@ -5,7 +5,14 @@ from book_inventory.view import BookViewCLI
 # TODO: add command name for menu (in their classes)
 
 
-class IndexBooksCommand:
+class Command:
+    controller_method_name: str
+
+    def execute(self):
+        pass
+
+
+class IndexBooksCommand(Command):
     controller_method_name: str = "index"
 
     def __init__(self, book_controller, inventory, view):
@@ -20,7 +27,7 @@ class IndexBooksCommand:
                 self.controller_method_name)(self.inventory, self.view)
 
 
-class CreateBookCommand:
+class CreateBookCommand(Command):
     controller_method_name: str = "create_book"
 
     def __init__(self, book_controller, inventory):
@@ -32,7 +39,7 @@ class CreateBookCommand:
         getattr(self.book_controller, self.controller_method_name)()
 
 
-class DeleteBookCommand:
+class DeleteBookCommand(Command):
     controller_method_name: str = "delete_option"
 
     def __init__(self, controller, inventory):

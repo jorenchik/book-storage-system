@@ -28,10 +28,14 @@ class Menu:
         }
 
     def execute_option(self, option):
-        if option in self.menu_options:
-            self.menu_options.get(option).execute()
-        else:
+        if option not in self.menu_options:
             raise (ValueError(f"Option '{option}' does not exist"))
+
+        action = self.menu_options.get(option)
+        if isinstance(action, commands.Command):
+            action.execute()
+        else:
+            action()
 
     def menu_loop(self):
         while True:

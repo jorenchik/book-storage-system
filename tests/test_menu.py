@@ -1,6 +1,7 @@
 from unittest import TestCase
 from book_inventory.menu import Menu
 from unittest.mock import MagicMock
+from book_inventory.commands import Command
 
 
 class ExecuteOptionTestCase(TestCase):
@@ -8,7 +9,8 @@ class ExecuteOptionTestCase(TestCase):
     @classmethod
     def setUpClass(cls):
         cls.menu = Menu()
-        cls.commands: list[MagicMock] = [MagicMock(), MagicMock()]
+        cls.commands: list[MagicMock] = [Command(), Command()]
+        cls.commands[0].execute = MagicMock()
 
     def test_execute_existing_option(self):
         self.menu.menu_options: dict[MagicMock] = {
@@ -24,20 +26,10 @@ class ExecuteOptionTestCase(TestCase):
         self.assertRaises(ValueError, self.menu.execute_option,
                           "non_existing_option")
 
-    # def test_not_execute_non_existing_option(self):
-    #     self.menu.menu_options = {"1": self.option, "2": self.another_option}
-    #     self.assertRaises(ValueError, self.menu.execute_option,
-    #                       self.another_command)
-    #
-    # def test_execute_existing_with_args(self):
-    #     command: MagicMock = MagicMock()
-    #     args = ["arg_1", "arg_2"]
-    #     self.menu.menu_options = {
-    #         "1": {
-    #             "name": "option_name",
-    #             "command": self.command,
-    #             "args": args
-    #         }
-    #     }
-    #     self.menu.execute_option(self.command)
-    #     command.execute.assert_called_once_with(args)
+    def test_execute_function_if_option_is_not_command(self):
+        foo = MagicMock(return_value="True")
+        self.menu.menu_options: dict[MagicMock] = {
+            "0": foo,
+        }
+        self.menu.execute_option("0")
+        foo.assert_called_once()
