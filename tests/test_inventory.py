@@ -1,5 +1,5 @@
 import unittest
-from unittest.mock import patch, mock_open
+from unittest.mock import patch, mock_open, MagicMock
 from book_inventory.model import Book
 from book_inventory.stores import Inventory
 
@@ -63,3 +63,23 @@ class InventoryCreationTestCase(unittest.TestCase):
         self.inventory.create_books_from_list(book_data_lists)
         self.assertEqual(len(self.inventory.books), 0,
                          "Should have created 0 books")
+
+
+class BookDeletionTestCase(unittest.TestCase):
+
+    def setUp(self):
+        self.inventory = Inventory()
+        self.inventory.books = [MagicMock(), MagicMock()]
+        self.inventory.books[0].isbn = "1111"
+        self.inventory.books[1].isbn = "2222"
+
+    def test_deletes_existing_book_that_succeeds(self):
+        self.inventory.delete("1111")
+        self.assertEqual(len(self.inventory.books), 1)
+
+    def test_book_not_found(self):
+        self.assertRaises(ValueError, self.inventory.delete, "3333")
+
+    def test_gives_value_error_if_multiple_books_were_found(self):
+        self.inventory.books[1].isbn = "111111"
+        self.assertRaises(ValueError, self.inventory.delete, "1111")

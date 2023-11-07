@@ -35,3 +35,15 @@ class Inventory:
         json_object = loads(json)
         books_object = json_object['books']
         self.create_books_from_dict(books_object)
+
+    def find_one_book(self, key: str, attributes: list[str]) -> Book:
+        results = Book.search_by_attributes(key, self.books, attributes)
+        if len(results) < 1:
+            raise ValueError("Book was not found")
+        if len(results) > 1:
+            raise ValueError("More than one book is found")
+        return results[0]
+
+    def delete(self, key: str) -> None:
+        book_to_remove = self.find_one_book(key, ["isbn"])
+        self.books.remove(book_to_remove)
