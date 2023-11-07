@@ -1,5 +1,5 @@
 from book_inventory.controller import BookController
-from book_inventory.commands import IndexBooksCommand
+from book_inventory.commands import IndexBooksCommand, CreateBookCommand
 from book_inventory.view import BookViewCLI
 
 
@@ -10,7 +10,7 @@ class Menu:
     def __init__(self):
         self.menu_options = {
             "0": {},
-            "1": {},
+            "1": CreateBookCommand(),
             "2": {},
             "3": {},
             "4": IndexBooksCommand(),

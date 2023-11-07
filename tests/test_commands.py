@@ -26,3 +26,22 @@ class IndexBooksTest(TestCase):
         command = IndexBooksCommand(controller, inventory, view)
         command.execute()
         controller.index.assert_called_once_with(inventory, view)
+
+
+class CreateBookCommandTest(TestCase):
+
+    def setUp(self):
+        self.controller = MagicMock()
+        self.inventory = MagicMock()
+        self.command = CreateBookCommand(self.controller, self.inventory)
+
+    def test_command_executes(self):
+        self.command.execute()
+        self.controller.create_book.assert_called_once()
+
+    def test_command_raises_type_error_if_no_such_method_exists(self):
+        self.command.controller_method_name = "non-existing"
+        self.assertRaises(
+            TypeError,
+            self.command.execute(),
+        )
