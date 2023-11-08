@@ -1,5 +1,5 @@
 from book_inventory.view import BookViewCLI
-from book_inventory.model import Book, Inventory
+from book_inventory.models import Book, Inventory
 
 
 class BookController:

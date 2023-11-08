@@ -1,7 +1,7 @@
 from book_inventory.controllers import BookController
 from book_inventory import commands
 from book_inventory.view import BookViewCLI
-from book_inventory.model import Inventory
+from book_inventory.models import Inventory
 import sys
 
 

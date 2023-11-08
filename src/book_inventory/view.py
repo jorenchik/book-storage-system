@@ -1,5 +1,5 @@
 from typing import Dict
-from .model import Book
+from .models import Book
 from tabulate import tabulate
 
 

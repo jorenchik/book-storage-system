@@ -1,5 +1,5 @@
 import unittest
-from book_inventory.model import Book, Inventory
+from book_inventory.models import Book, Inventory
 from unittest.mock import MagicMock
 from copy import deepcopy
 
