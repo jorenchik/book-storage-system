@@ -50,7 +50,7 @@ class Book:
             for attr in attribute_list:
                 if str(getattr(book, attr)).__contains__(str(prompt)):
                     results.append(book)
-                    continue
+                    break
         return results
 
     @classmethod

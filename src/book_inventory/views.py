@@ -99,7 +99,7 @@ class TkinterWindow:
         delete_button.bind("<Button-1>", bind)
 
     def create_search_bar(self, parent, text):
-        self.add_label(self.action_frame, text, "top")
+        self.add_label(parent, text, "top")
         search_bar = tk.Entry(parent, width=50)
         search_bar.pack(side="top")
         return search_bar
@@ -112,20 +112,29 @@ class TkinterWindow:
         self.add_action_frame()
 
     def add_action_frame(self):
-        self.action_frame = tk.Frame(self.top_frame, width=100)
-        self.action_frame.pack(side=tk.TOP)
+        action_frame = tk.Frame(self.top_frame, width=100)
+        action_frame.pack(side=tk.TOP)
 
-        self.isbn_search_bar = self.create_search_bar(self.action_frame,
+        self.isbn_search_bar = self.create_search_bar(action_frame,
                                                       "Search by isbn")
+        # action_frame = tk.Frame(entry_frame)
+        # self.add_action_button(action_frame,
+        #                        "Delete",
+        #                        self.on_item_delete,
+        #                        side="left")
+        # self.add_action_button(action_frame,
+        #                        "Add",
+        #                        self.on_item_add,
+        #                        side="left")
 
-        self.add_action_button(self.action_frame, "Search",
-                               self.on_search_by_isbn)
+        self.add_action_button(action_frame, "Search", self.on_search_by_isbn)
 
         self.author_or_title_search_bar = self.create_search_bar(
-            self.action_frame, "Search but author or title")
+            action_frame, "Search but author or title")
 
-        self.add_action_button(self.action_frame, "Search",
+        self.add_action_button(action_frame, "Search",
                                self.on_search_by_author_or_title)
+        return action_frame
 
     def add_table(self):
 
@@ -179,8 +188,8 @@ class TkinterWindow:
         self.load_items_to_treeview(results)
 
     def on_search_by_author_or_title(self, event):
-        results = self.book_controller.search_books(self.isbn_search_bar.get(),
-                                                    ["author", "title"])
+        results = self.book_controller.search_books(
+            self.author_or_title_search_bar.get(), ["author", "title"])
         self.load_items_to_treeview(results)
 
     def on_item_click(self, event):
