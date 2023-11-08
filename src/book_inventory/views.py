@@ -5,6 +5,13 @@ import tkinter as tk
 from tkinter.messagebox import showinfo
 from tksheet import Sheet
 from tkinter import Entry, END
+from book_inventory.models import Book
+import re
+
+
+def camel_to_sentence(camel_str):
+    sentence_str = re.sub(r'_', ' ', camel_str)
+    return sentence_str[0].upper() + sentence_str[1:]
 
 
 class BookViewCLI:
@@ -40,6 +47,12 @@ class TkinterWindow:
         height = 600
         screen_width = self.root.winfo_screenwidth()  # Width of the screen
         screen_height = self.root.winfo_screenheight()  # Height of the screen
+        self.entries = []
+
+        self.lst = [
+            ('1', 'Atr_2', 'Atr_3', 'Atr_4'),
+            ('2', 'Atr_2', 'Atr_3', 'Atr_4'),
+        ]
 
         # Calculate Starting X and Y coordinates for Window
         x = (screen_width / 2) - (width / 2)
@@ -55,7 +68,24 @@ class TkinterWindow:
     def open(self) -> None:
         self.root.mainloop()
 
+    def add_entry(self, frame: tk.Frame, name: str) -> tk.Entry:
+        self.entry_frame.pack()
+        label_text_variable = tk.StringVar(self.entry_frame)
+        label_text_variable.set(camel_to_sentence(name))
+        label = tk.Label(self.entry_frame,
+                         textvariable=label_text_variable,
+                         height=1)
+        label.pack(side="top", padx=20)
+        e_1 = tk.Entry(self.entry_frame, name=name)
+        e_1.pack(side="top")
+
+    def add_form(self, parent, entry_names) -> None:
+        self.entry_frame = tk.Frame(self.root, width=600, pady=10)
+        for slot in entry_names:
+            self.entries.append(self.add_entry(self.entry_frame, slot))
+
     def add_table(self) -> None:
+        self.add_form(self.root, Book.__slots__)
 
         self.button_frame = tk.Frame(self.root, width=600, pady=10)
         self.delete_button = tk.ttk.Button(self.button_frame, text="Delete")
@@ -76,11 +106,6 @@ class TkinterWindow:
                                          yscrollcommand=y_scroll.set,
                                          xscrollcommand=x_scroll.set,
                                          height=600)
-
-        self.lst = [
-            ('1', 'Atr_2', 'Atr_3', 'Atr_4'),
-            ('2', 'Atr_2', 'Atr_3', 'Atr_4'),
-        ]
 
         self.tree_view.column("#0", width=0, stretch=tk.NO)
 
