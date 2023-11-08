@@ -15,16 +15,15 @@ class BookController:
             raise TypeError("This ISBN already exists")
         self.inventory.books.append(book)
 
-    def search_books_by_isbn(self) -> None:
-        prompt = input("Search:")
+    def search_books_by_isbn(self, prompt):
         results = Book.search_by_attributes(prompt, self.inventory.books,
                                             ["isbn"])
-        self.view.print_books(results)
+        return results
 
-    def search_books(self) -> None:
-        prompt = input("Search:")
-        results = Book.search_by_attributes(prompt, self.books, Book.__slots__)
-        self.view.print_books(results)
+    def search_books(self, prompt, attributes):
+        results = Book.search_by_attributes(prompt, self.inventory.books,
+                                            attributes)
+        return results
 
     def index(self) -> list[Book]:
         books_to_print = self.inventory.books

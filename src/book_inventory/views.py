@@ -174,12 +174,14 @@ class TkinterWindow:
             self.book_controller.delete(self.deletion_item_isbn)
 
     def on_search_by_isbn(self, event):
-        print("search_by_isbn:")
-        print(self.isbn_search_bar.get())
+        results = self.book_controller.search_books_by_isbn(
+            self.isbn_search_bar.get())
+        self.load_items_to_treeview(results)
 
     def on_search_by_author_or_title(self, event):
-        print("search_author_or_title:")
-        print(self.author_or_title_search_bar.get())
+        results = self.book_controller.search_books(self.isbn_search_bar.get(),
+                                                    ["author", "title"])
+        self.load_items_to_treeview(results)
 
     def on_item_click(self, event):
         try:
