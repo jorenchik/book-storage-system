@@ -36,10 +36,21 @@ class TkinterWindow:
 
     def __init__(self):
         self.root = tk.Tk()
+        width = 500
+        height = 600
+        screen_width = self.root.winfo_screenwidth()  # Width of the screen
+        screen_height = self.root.winfo_screenheight()  # Height of the screen
+
+        # Calculate Starting X and Y coordinates for Window
+        x = (screen_width / 2) - (width / 2)
+        y = (screen_height / 2) - (height / 2)
+        self.root.geometry('%dx%d+%d+%d' % (width, height, 500, 500))
         self.root.title('Book listing')
-        self.root.geometry('500x500+50+50')
-        self.root.resizable(False, False)
+
         self.add_table()
+
+    def popup_showinfo(self):
+        tk.messagebox.showinfo("Info", "Book has been deleted!")
 
     def open(self) -> None:
         self.root.mainloop()
@@ -47,18 +58,23 @@ class TkinterWindow:
     def add_table(self) -> None:
 
         self.button_frame = tk.Frame(self.root, width=600, pady=10)
-        self.delete_button = tk.Button(self.button_frame,
-                                       text="Delete",
-                                       padx=20)
+        self.delete_button = tk.ttk.Button(self.button_frame, text="Delete")
+        self.button_showinfo = tk.ttk.Button(self.button_frame,
+                                             text="Show Info",
+                                             command=self.popup_showinfo)
         self.button_frame.pack()
-        self.frame = tk.Frame(self.root, width=600, pady=10)
+        self.frame = tk.Frame(self.root, pady=10)
+        self.button_showinfo.pack(side=tk.LEFT, padx=10)
         self.delete_button.pack(side=tk.LEFT)
 
-        game_scroll = tk.Scrollbar(self.frame)
-        game_scroll.pack(side=tk.RIGHT, fill=tk.Y)
+        y_scroll = tk.Scrollbar(self.frame)
+        y_scroll.pack(side=tk.RIGHT, fill=tk.Y)
+        x_scroll = tk.Scrollbar(self.frame, orient="horizontal")
+        x_scroll.pack(side=tk.BOTTOM, fill=tk.X)
 
         self.tree_view = tk.ttk.Treeview(self.frame,
-                                         yscrollcommand=game_scroll.set,
+                                         yscrollcommand=y_scroll.set,
+                                         xscrollcommand=x_scroll.set,
                                          height=600)
 
         self.lst = [
@@ -71,7 +87,7 @@ class TkinterWindow:
         self.tree_view["columns"] = ("Isbn", "Title", "Author", "Quantity",
                                      "Price")
         for column in self.tree_view["columns"]:
-            self.tree_view.column(column, anchor=tk.CENTER, width=80)
+            self.tree_view.column(column, anchor=tk.CENTER, width=140)
         for column in self.tree_view["columns"]:
             self.tree_view.heading(column, text=column, anchor=tk.CENTER)
         for i, value_list in enumerate(self.lst):
@@ -83,7 +99,8 @@ class TkinterWindow:
 
         self.frame.pack()
         self.tree_view.pack()
-        game_scroll.config(command=self.tree_view.yview)
+        y_scroll.config(command=self.tree_view.yview)
+        x_scroll.config(command=self.tree_view.xview)
 
         self.tree_view.bind('<Button-1>', self.on_item_click)
 
