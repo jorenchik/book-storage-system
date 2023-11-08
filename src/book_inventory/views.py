@@ -1,6 +1,6 @@
 from .models import Book
 import tkinter as tk
-from tkinter import ttk
+from tkinter import ttk, messagebox
 import re
 from controllers import BookController
 from models import Inventory
@@ -31,8 +31,16 @@ class TkinterWindow:
     def get_all_items(self):
         self.index_items = self.book_controller.index()
 
-    def load_items_to_treeview(self):
-        pass
+    def load_items_to_treeview(self, items):
+        for item_index in self.tree_view.get_children():
+            self.tree_view.delete(item_index)
+        for i, item in enumerate(items):
+            value_list = item.__tuple__()
+            self.tree_view.insert(parent='',
+                                  index='end',
+                                  iid=i,
+                                  text='',
+                                  values=value_list)
 
     def set_geometry_center(self, target, width, height):
         screen_width = self.root.winfo_screenwidth()  # Width of the screen
@@ -42,8 +50,11 @@ class TkinterWindow:
         y = (screen_height / 2) - (height / 2)
         target.geometry('%dx%d+%d+%d' % (width, height, x, y))
 
-    def popup_showinfo(self):
-        tk.messagebox.showinfo("Info", "Book has been deleted!")
+    def show_info(self, text):
+        messagebox.showinfo("Info", text)
+
+    def show_error(self, text):
+        messagebox.showerror("Info", text)
 
     def open(self) -> None:
         self.add_top_frame()
@@ -60,12 +71,14 @@ class TkinterWindow:
         self.add_label(frame, name, "top")
         entry = tk.Entry(frame, name=name)
         entry.pack(side="top")
+        return entry
 
     def add_form(self, parent, entry_names) -> tk.Frame:
         form_frame = tk.Frame(self.top_frame, width=100)
         entry_frame = tk.Frame(self.root, width=600, pady=10)
+        add_form_entries = []
         for slot in entry_names:
-            self.add_form_entries.append(self.add_entry(entry_frame, slot))
+            add_form_entries.append(self.add_entry(entry_frame, slot))
         action_frame = tk.Frame(entry_frame)
         self.add_action_button(action_frame,
                                "Delete",
@@ -78,7 +91,7 @@ class TkinterWindow:
         entry_frame.pack()
         action_frame.pack()
         form_frame.pack(side=tk.TOP)
-        return form_frame
+        return add_form_entries
 
     def add_action_button(self, parent, text, bind, side="top"):
         delete_button = ttk.Button(parent, text=text)
@@ -95,7 +108,7 @@ class TkinterWindow:
         self.top_frame = tk.Frame(self.root)
         self.top_frame.pack(side=tk.TOP)
         self.top_frame.pack()
-        self.add_form(self.top_frame, Book.__slots__)
+        self.add_form_entries = self.add_form(self.top_frame, Book.__slots__)
         self.add_action_frame()
 
     def add_action_frame(self):
@@ -135,12 +148,8 @@ class TkinterWindow:
             self.tree_view.column(column, anchor=tk.CENTER, width=140)
         for column in self.tree_view["columns"]:
             self.tree_view.heading(column, text=column, anchor=tk.CENTER)
-        for i, value_list in enumerate(self.index_items):
-            self.tree_view.insert(parent='',
-                                  index='end',
-                                  iid=i,
-                                  text='',
-                                  values=value_list)
+
+        self.load_items_to_treeview(self.book_controller.inventory.books)
 
         self.frame.pack()
         self.tree_view.pack()
@@ -150,7 +159,14 @@ class TkinterWindow:
         self.tree_view.bind('<Button-1>', self.on_item_click)
 
     def on_item_add(self, event):
-        print("item add")
+        book_data = [entry.get() for entry in self.add_form_entries]
+        try:
+            self.book_controller.create(*book_data)
+        except TypeError as e:
+            self.show_error(e)
+
+        new_books = self.book_controller.inventory.books
+        self.load_items_to_treeview(new_books)
 
     def on_item_delete(self, event):
         if self.deletion_item_index != -1:

@@ -7,9 +7,12 @@ class BookController:
         self.inventory = inventory
         self.inventory.load_json_from_storage()
 
-    def create(self) -> None:
-        book_data: tuple = self.view.input_book_data()
-        book = Book(*book_data)
+    def create(self, *kwargs):
+        book = Book(*kwargs)
+        if "" in kwargs:
+            raise TypeError("Every field should be filled")
+        if not self.inventory.check_unique_isbn(book.isbn):
+            raise TypeError("This ISBN already exists")
         self.inventory.books.append(book)
 
     def search_books_by_isbn(self) -> None:

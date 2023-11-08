@@ -17,12 +17,30 @@ class Book:
 
     __slots__ = ["isbn", "title", "author", "price", "quantity_in_stock"]
 
+    def __tuple__(self):
+        values = []
+        for attr in Book.__slots__:
+            values.append(getattr(self, attr))
+        return tuple(values)
+
     def __init__(self, isbn, title, author, price, quantity_in_stock):
         self.isbn = str(isbn)
         self.title = title
         self.author = author
         self.price = price
         self.quantity_in_stock = quantity_in_stock
+        if not self.validate_isbn(self.isbn):
+            raise TypeError("Wrong ISBN format")
+        self.validate_length("title", 0, 100)
+        self.validate_length("author", 0, 100)
+        try:
+            float(self.price)
+        except ValueError:
+            raise TypeError("price should be a number")
+        try:
+            float(self.quantity_in_stock)
+        except ValueError:
+            raise TypeError("quantity in stock should be a number")
 
     @classmethod
     def search_by_attributes(cls, prompt, books, attribute_list) -> list:
@@ -54,7 +72,7 @@ class Book:
     def validate_length(self, attribute_name, min, max) -> bool:
         length = len(getattr(self, attribute_name))
         if not (length >= min and length <= max):
-            raise ValueError(
+            raise TypeError(
                 f"{attribute_name} should contain between 1-50 symbols")
 
 
