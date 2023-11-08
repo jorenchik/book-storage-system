@@ -46,14 +46,22 @@ class Book:
             raise TypeError("quantity in stock should be a number")
 
     @classmethod
-    def search_by_attributes(cls, prompt, books, attribute_list) -> list:
+    def search_by_attributes(cls,
+                             prompt,
+                             books,
+                             attribute_list,
+                             exact=False) -> list:
         # Searches for books in a given list that match the provided prompt in
         # the specified attributes (case insensitive).
         results = []
         for book in books:
             for attr in attribute_list:
-                if str(getattr(book, attr)).lower().__contains__(
-                        str(prompt).lower()):
+                if exact and str(getattr(book,
+                                         attr)).lower() == str(prompt).lower():
+                    results.append(book)
+                    break
+                elif not exact and str(getattr(
+                        book, attr)).lower().__contains__(str(prompt).lower()):
                     results.append(book)
                     break
         return results
@@ -112,11 +120,14 @@ class Inventory:
 
     def delete(self, key: str) -> None:
         # Removes a book from the inventory based on a given key.
-        book_to_remove = self.find_one_book(key, ["isbn"])
+        book_to_remove = self.find_one_book(key, ["isbn"], exact=True)
         self.books.remove(book_to_remove)
 
-    def find_one_book(self, key: str, attributes: list[str]) -> Book:
-        results = Book.search_by_attributes(key, self.books, attributes)
+    def find_one_book(self,
+                      key: str,
+                      attributes: list[str],
+                      exact=False) -> Book:
+        results = Book.search_by_attributes(key, self.books, attributes, exact)
         count = len(results)
         if count < 1:
             raise ValueError("Book was not found")
