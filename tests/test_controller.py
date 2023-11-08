@@ -1,7 +1,6 @@
 import unittest
 from unittest.mock import patch, mock_open, MagicMock
-from book_inventory.model import Book
-from book_inventory.stores import Inventory
+from book_inventory.model import Book, Inventory
 from book_inventory.controller import BookController
 
 
