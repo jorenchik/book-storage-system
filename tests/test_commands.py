@@ -1,7 +1,7 @@
 from unittest import TestCase
 from unittest.mock import MagicMock
 from book_inventory.commands import IndexBooksCommand, CreateBookCommand, DeleteBookCommand
-from book_inventory.controller import BookController
+from book_inventory.controllers import BookController
 
 
 class IndexBooksTest(TestCase):
