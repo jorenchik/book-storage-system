@@ -25,11 +25,14 @@ class TkinterWindow:
         self.book_controller = BookController(Inventory())
         self.inventory = Inventory()
         self.add_form_entries = []
-        self.load_items()
+        self.get_all_items()
         self.deletion_item = ""
 
-    def load_items(self):
+    def get_all_items(self):
         self.index_items = self.book_controller.index()
+
+    def load_items_to_treeview(self):
+        pass
 
     def set_geometry_center(self, target, width, height):
         screen_width = self.root.winfo_screenwidth()  # Width of the screen
@@ -43,6 +46,7 @@ class TkinterWindow:
         tk.messagebox.showinfo("Info", "Book has been deleted!")
 
     def open(self) -> None:
+        self.add_top_frame()
         self.add_table()
         self.root.mainloop()
 
@@ -59,17 +63,26 @@ class TkinterWindow:
 
     def add_form(self, parent, entry_names) -> tk.Frame:
         form_frame = tk.Frame(self.top_frame, width=100)
-        self.entry_frame = tk.Frame(self.root, width=600, pady=10)
+        entry_frame = tk.Frame(self.root, width=600, pady=10)
         for slot in entry_names:
-            self.add_form_entries.append(self.add_entry(
-                self.entry_frame, slot))
-        self.entry_frame.pack()
+            self.add_form_entries.append(self.add_entry(entry_frame, slot))
+        action_frame = tk.Frame(entry_frame)
+        self.add_action_button(action_frame,
+                               "Delete",
+                               self.on_item_delete,
+                               side="left")
+        self.add_action_button(action_frame,
+                               "Add",
+                               self.on_item_add,
+                               side="left")
+        entry_frame.pack()
+        action_frame.pack()
         form_frame.pack(side=tk.TOP)
         return form_frame
 
-    def add_action_button(self, parent, text, bind):
-        delete_button = ttk.Button(self.button_frame, text=text)
-        delete_button.pack(side=tk.LEFT, padx=10)
+    def add_action_button(self, parent, text, bind, side="top"):
+        delete_button = ttk.Button(parent, text=text)
+        delete_button.pack(padx=10, pady=10, side=side)
         delete_button.bind("<Button-1>", bind)
 
     def create_search_bar(self, parent, text):
@@ -78,25 +91,30 @@ class TkinterWindow:
         search_bar.pack(side="top")
         return search_bar
 
-    def add_table(self) -> None:
+    def add_top_frame(self) -> None:
         self.top_frame = tk.Frame(self.root)
         self.top_frame.pack(side=tk.TOP)
         self.top_frame.pack()
         self.add_form(self.top_frame, Book.__slots__)
+        self.add_action_frame()
 
+    def add_action_frame(self):
         self.action_frame = tk.Frame(self.top_frame, width=100)
         self.action_frame.pack(side=tk.TOP)
 
         self.isbn_search_bar = self.create_search_bar(self.action_frame,
                                                       "Search by isbn")
 
-        self.button_frame = tk.Frame(self.action_frame, width=600, pady=10)
-        self.button_frame.pack(side="top")
-
-        self.add_action_button(self.button_frame, "Delete",
-                               self.on_item_delete)
-        self.add_action_button(self.button_frame, "Search by isbn",
+        self.add_action_button(self.action_frame, "Search",
                                self.on_search_by_isbn)
+
+        self.author_or_title_search_bar = self.create_search_bar(
+            self.action_frame, "Search but author or title")
+
+        self.add_action_button(self.action_frame, "Search",
+                               self.on_search_by_author_or_title)
+
+    def add_table(self):
 
         self.frame = tk.Frame(self.root, pady=10)
         y_scroll = tk.Scrollbar(self.frame)
@@ -131,6 +149,9 @@ class TkinterWindow:
 
         self.tree_view.bind('<Button-1>', self.on_item_click)
 
+    def on_item_add(self, event):
+        print("item add")
+
     def on_item_delete(self, event):
         if self.deletion_item_index != -1:
             self.tree_view.delete(self.deletion_item_index)
@@ -139,6 +160,10 @@ class TkinterWindow:
     def on_search_by_isbn(self, event):
         print("search_by_isbn:")
         print(self.isbn_search_bar.get())
+
+    def on_search_by_author_or_title(self, event):
+        print("search_author_or_title:")
+        print(self.author_or_title_search_bar.get())
 
     def on_item_click(self, event):
         try:
