@@ -68,35 +68,52 @@ class TkinterWindow:
     def open(self) -> None:
         self.root.mainloop()
 
-    def add_entry(self, frame: tk.Frame, name: str) -> tk.Entry:
-        self.entry_frame.pack()
-        label_text_variable = tk.StringVar(self.entry_frame)
+    def add_label(self, frame, name, side) -> None:
+        label_text_variable = tk.StringVar(frame)
         label_text_variable.set(camel_to_sentence(name))
-        label = tk.Label(self.entry_frame,
-                         textvariable=label_text_variable,
-                         height=1)
-        label.pack(side="top", padx=20)
-        e_1 = tk.Entry(self.entry_frame, name=name)
-        e_1.pack(side="top")
+        label = tk.Label(frame, textvariable=label_text_variable, height=1)
+        label.pack(side=side, padx=20)
+
+    def add_entry(self, frame: tk.Frame, name: str) -> tk.Entry:
+        self.add_label(frame, name, "top")
+        entry = tk.Entry(frame, name=name)
+        entry.pack(side="top")
 
     def add_form(self, parent, entry_names) -> None:
         self.entry_frame = tk.Frame(self.root, width=600, pady=10)
         for slot in entry_names:
             self.entries.append(self.add_entry(self.entry_frame, slot))
+        self.entry_frame.pack()
 
     def add_table(self) -> None:
-        self.add_form(self.root, Book.__slots__)
+        self.top_frame = tk.Frame(self.root)
+        self.top_frame.pack(side=tk.TOP)
+        self.top_frame.pack()
 
-        self.button_frame = tk.Frame(self.root, width=600, pady=10)
+        self.form_frame = tk.Frame(self.top_frame, width=100)
+        self.form_frame.pack(side=tk.TOP)
+
+        self.action_frame = tk.Frame(self.top_frame, width=100)
+        self.action_frame.pack(side=tk.TOP)
+
+        self.add_form(self.form_frame, Book.__slots__)
+
+        self.add_label(self.action_frame, "Search", "top")
+        self.search_bar = tk.Entry(self.action_frame, width=50)
+        self.search_bar.pack(side="top")
+        self.button_frame = tk.Frame(self.action_frame, width=600, pady=10)
+        self.button_frame.pack(side="top")
         self.delete_button = tk.ttk.Button(self.button_frame, text="Delete")
-        self.button_showinfo = tk.ttk.Button(self.button_frame,
-                                             text="Show Info",
-                                             command=self.popup_showinfo)
-        self.button_frame.pack()
-        self.frame = tk.Frame(self.root, pady=10)
-        self.button_showinfo.pack(side=tk.LEFT, padx=10)
-        self.delete_button.pack(side=tk.LEFT)
+        self.delete_button.pack(side=tk.LEFT, padx=10)
+        self.search_button = tk.ttk.Button(self.button_frame, text="Search")
+        self.search_button.pack(side=tk.LEFT, padx=10)
 
+        # self.button_showinfo = tk.ttk.Button(self.button_frame,
+        #                                      text="Show Info",
+        #                                      command=self.popup_showinfo)
+        # self.button_showinfo.pack(side=tk.LEFT, padx=10)
+
+        self.frame = tk.Frame(self.root, pady=10)
         y_scroll = tk.Scrollbar(self.frame)
         y_scroll.pack(side=tk.RIGHT, fill=tk.Y)
         x_scroll = tk.Scrollbar(self.frame, orient="horizontal")
