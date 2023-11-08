@@ -183,6 +183,7 @@ class TkinterWindow:
         if self.deletion_item_index != -1:
             self.tree_view.delete(self.deletion_item_index)
             self.book_controller.delete(self.deletion_item_isbn)
+            self.reset_deletion()
             self.show_info("Book has been deleted")
 
     def on_search_by_isbn(self, event):
@@ -195,6 +196,11 @@ class TkinterWindow:
             self.author_or_title_search_bar.get(), ["author", "title"])
         self.load_items_to_treeview(results)
 
+    def reset_deletion(self):
+        self.deletion_item = None
+        self.deletion_item_index = -1
+        self.deletion_item_isbn = ""
+
     def on_item_click(self, event):
         try:
             item_index = self.tree_view.identify('item', event.x, event.y)
@@ -204,6 +210,4 @@ class TkinterWindow:
                 self.deletion_item_index = item_index
                 self.deletion_item_isbn = item["values"][0]
         except KeyError:
-            self.deletion_item = None
-            self.deletion_item_index = -1
-            self.deletion_item_isbn = ""
+            self.reset_deletion()
