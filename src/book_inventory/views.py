@@ -102,9 +102,9 @@ class TkinterWindow:
         return add_form_entries
 
     def add_action_button(self, parent, text, bind, side="top"):
-        delete_button = ttk.Button(parent, text=text)
-        delete_button.pack(padx=10, pady=10, side=side)
-        delete_button.bind("<Button-1>", bind)
+        action_button = ttk.Button(parent, text=text)
+        action_button.pack(padx=10, pady=10, side=side)
+        action_button.bind("<Button-1>", bind)
 
     def create_search_bar(self, parent, text):
         self.add_label(parent, text, "top")
@@ -183,6 +183,7 @@ class TkinterWindow:
         if self.deletion_item_index != -1:
             self.tree_view.delete(self.deletion_item_index)
             self.book_controller.delete(self.deletion_item_isbn)
+            self.show_info("Book has been deleted")
 
     def on_search_by_isbn(self, event):
         results = self.book_controller.search_books_by_isbn(
