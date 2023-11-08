@@ -7,6 +7,9 @@ from tksheet import Sheet
 from tkinter import Entry, END
 from book_inventory.models import Book
 import re
+from commands import IndexBooksCommand
+from controllers import BookController
+from models import Inventory
 
 
 def camel_to_sentence(camel_str):
@@ -48,11 +51,11 @@ class TkinterWindow:
         screen_width = self.root.winfo_screenwidth()  # Width of the screen
         screen_height = self.root.winfo_screenheight()  # Height of the screen
         self.entries = []
+        self.book_controller = BookController(Inventory())
+        self.inventory = Inventory()
+        self.lst = self.book_controller.index()
 
-        self.lst = [
-            ('1', 'Atr_2', 'Atr_3', 'Atr_4'),
-            ('2', 'Atr_2', 'Atr_3', 'Atr_4'),
-        ]
+        self.deletion_item = ""
 
         # Calculate Starting X and Y coordinates for Window
         x = (screen_width / 2) - (width / 2)
@@ -79,39 +82,45 @@ class TkinterWindow:
         entry = tk.Entry(frame, name=name)
         entry.pack(side="top")
 
-    def add_form(self, parent, entry_names) -> None:
+    def add_form(self, parent, entry_names) -> tk.Frame:
+        form_frame = tk.Frame(self.top_frame, width=100)
         self.entry_frame = tk.Frame(self.root, width=600, pady=10)
         for slot in entry_names:
             self.entries.append(self.add_entry(self.entry_frame, slot))
         self.entry_frame.pack()
+        form_frame.pack(side=tk.TOP)
+        return form_frame
+
+    def add_action_button(self, parent, text, bind):
+        delete_button = tk.ttk.Button(self.button_frame, text=text)
+        delete_button.pack(side=tk.LEFT, padx=10)
+        delete_button.bind("<Button-1>", bind)
+
+    def create_search_bar(self, parent, text):
+        self.add_label(self.action_frame, text, "top")
+        search_bar = tk.Entry(parent, width=50)
+        search_bar.pack(side="top")
+        return search_bar
 
     def add_table(self) -> None:
         self.top_frame = tk.Frame(self.root)
         self.top_frame.pack(side=tk.TOP)
         self.top_frame.pack()
-
-        self.form_frame = tk.Frame(self.top_frame, width=100)
-        self.form_frame.pack(side=tk.TOP)
+        self.add_form(self.top_frame, Book.__slots__)
 
         self.action_frame = tk.Frame(self.top_frame, width=100)
         self.action_frame.pack(side=tk.TOP)
 
-        self.add_form(self.form_frame, Book.__slots__)
+        self.isbn_search_bar = self.create_search_bar(self.action_frame,
+                                                      "Search by isbn")
 
-        self.add_label(self.action_frame, "Search", "top")
-        self.search_bar = tk.Entry(self.action_frame, width=50)
-        self.search_bar.pack(side="top")
         self.button_frame = tk.Frame(self.action_frame, width=600, pady=10)
         self.button_frame.pack(side="top")
-        self.delete_button = tk.ttk.Button(self.button_frame, text="Delete")
-        self.delete_button.pack(side=tk.LEFT, padx=10)
-        self.search_button = tk.ttk.Button(self.button_frame, text="Search")
-        self.search_button.pack(side=tk.LEFT, padx=10)
 
-        # self.button_showinfo = tk.ttk.Button(self.button_frame,
-        #                                      text="Show Info",
-        #                                      command=self.popup_showinfo)
-        # self.button_showinfo.pack(side=tk.LEFT, padx=10)
+        self.add_action_button(self.button_frame, "Delete",
+                               self.on_item_delete)
+        self.add_action_button(self.button_frame, "Search by isbn",
+                               self.on_search_by_isbn)
 
         self.frame = tk.Frame(self.root, pady=10)
         y_scroll = tk.Scrollbar(self.frame)
@@ -146,17 +155,28 @@ class TkinterWindow:
 
         self.tree_view.bind('<Button-1>', self.on_item_click)
 
+    def on_item_delete(self, event):
+        if self.deletion_item_index != -1:
+            self.tree_view.delete(self.deletion_item_index)
+
+    def on_search_by_isbn(self, event):
+        print("search_by_isbn:")
+        print(self.isbn_search_bar.get())
+
     def on_item_click(self, event):
-        item = self.tree_view.identify('item', event.x, event.y)
-        print(self.lst[int(item)])
+        try:
+            item_index = self.tree_view.identify('item', event.x, event.y)
+            item = self.tree_view.item(item_index)
+            self.deletion_item = item
+            self.deletion_item_index = item_index
+            self.deletion_item_isbn = item["values"][0]
+        except KeyError:
+            self.deletion_item = None
+            self.deletion_item_index = -1
+            self.deletion_item_isbn = ""
 
     def on_frame_configure(self, event):
-        # Reset the scroll region to encompass the inner frame
         self.canvas.configure(scrollregion=self.canvas.bbox("all"))
-
-    # def on_frame_configure(self, event):
-    #     # Set the scrollregion to encompass the inner frame
-    #     self.canvas.configure(scrollregion=self.canvas.bbox("all"))
 
 
 class BookViewGUI:

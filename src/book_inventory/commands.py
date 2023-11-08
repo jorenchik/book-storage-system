@@ -1,7 +1,3 @@
-from book_inventory.controllers import BookController
-from book_inventory.models import Inventory
-from book_inventory.views import BookViewCLI
-
 # TODO: add command name for menu (in their classes)
 
 

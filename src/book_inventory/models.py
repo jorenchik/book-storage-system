@@ -79,7 +79,7 @@ class Inventory:
         json_object = loads(json)
         books_object = json_object['books']
         for book_dict in books_object:
-            Book.create_book_from_dict(book_dict)
+            self.books.append(Book.create_book_from_dict(book_dict))
 
     def delete(self, key: str) -> None:
         book_to_remove = self.find_one_book(key, ["isbn"])

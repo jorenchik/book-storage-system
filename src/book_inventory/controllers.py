@@ -1,14 +1,11 @@
-from book_inventory.views import BookViewCLI
-from book_inventory.models import Book, Inventory
+from book_inventory.models import Book
 
 
 class BookController:
 
-    def __init__(self):
-        self.inventory = Inventory()
-        self.view = BookViewCLI()
+    def __init__(self, inventory):
+        self.inventory = inventory
         self.inventory.load_json_from_storage()
-        self.model = Inventory()
 
     def create(self) -> None:
         book_data: tuple = self.view.input_book_data()
@@ -26,9 +23,16 @@ class BookController:
         results = Book.search_by_attributes(prompt, self.books, Book.__slots__)
         self.view.print_books(results)
 
-    def index(self, inventory, view) -> None:
-        books_to_print = inventory.books
-        view.print_books(books_to_print)
+    def index(self) -> list[Book]:
+        books_to_print = self.inventory.books
+        book_list = []
+        for book in books_to_print:
+            book_values = []
+            for slot in Book.__slots__:
+                book_values.append(getattr(book, slot))
+            book_list.append(book_values)
+
+        return book_list
 
     def delete(self, key: str) -> None:
         if not self.model.delete(key):

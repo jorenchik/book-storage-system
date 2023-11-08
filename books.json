@@ -6,6 +6,13 @@
             "author": "John Doe",
             "price": 12.2,
             "quantity_in_stock": 5
+        },
+        {
+            "isbn": "978-3-16-142220-0",
+            "title": "Pride and prejudice",
+            "author": "John Doe",
+            "price": 12.2,
+            "quantity_in_stock": 5
         }
     ]
 }
