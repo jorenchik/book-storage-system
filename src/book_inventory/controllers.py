@@ -1,4 +1,4 @@
-from book_inventory.view import BookViewCLI
+from book_inventory.views import BookViewCLI
 from book_inventory.models import Book, Inventory
 
 
