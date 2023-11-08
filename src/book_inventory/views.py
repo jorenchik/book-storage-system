@@ -1,6 +1,7 @@
 from typing import Dict
 from .models import Book
 from tabulate import tabulate
+import tkinter as tk
 
 
 class BookViewCLI:
@@ -26,3 +27,17 @@ class BookViewCLI:
                      headers=Book.__slots__,
                      tablefmt='psql',
                      showindex=False))
+
+
+class TkinterWindow:
+
+    def __init__(self):
+        self.root = tk.Tk()
+        self.root.title('Book listing')
+
+    def open(self) -> None:
+        self.root.mainloop()
+
+
+class BookViewGUI:
+    pass
