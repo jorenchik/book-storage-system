@@ -48,11 +48,12 @@ class Book:
     @classmethod
     def search_by_attributes(cls, prompt, books, attribute_list) -> list:
         # Searches for books in a given list that match the provided prompt in
-        # the specified attributes.
+        # the specified attributes (case insensitive).
         results = []
         for book in books:
             for attr in attribute_list:
-                if str(getattr(book, attr)).__contains__(str(prompt)):
+                if str(getattr(book, attr)).lower().__contains__(
+                        str(prompt).lower()):
                     results.append(book)
                     break
         return results
