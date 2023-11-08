@@ -1,7 +1,1 @@
--e git+ssh://git@github.com/jorenchik/book-storage-system.git@7bb50d0bcc0f09ae66d6829c33879f39a511cdfb#egg=bookinv
--e git+ssh://git@github.com/jorenchik/book-storage-system.git@7bb50d0bcc0f09ae66d6829c33879f39a511cdfb#egg=bookstore
-install==1.3.5
-packaging==23.2
-pluggy==1.3.0
-python-dateutil==2.8.2
-six==1.16.0
+-e git+ssh://git@github.com/jorenchik/book-storage-system.git@36a60a7b55c94d56fe4bac09b2a607aaff163c04#egg=bookstore
