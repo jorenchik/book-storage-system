@@ -185,9 +185,10 @@ class TkinterWindow:
         try:
             item_index = self.tree_view.identify('item', event.x, event.y)
             item = self.tree_view.item(item_index)
-            self.deletion_item = item
-            self.deletion_item_index = item_index
-            self.deletion_item_isbn = item["values"][0]
+            if item["values"] != '':
+                self.deletion_item = item
+                self.deletion_item_index = item_index
+                self.deletion_item_isbn = item["values"][0]
         except KeyError:
             self.deletion_item = None
             self.deletion_item_index = -1

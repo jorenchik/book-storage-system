@@ -1,7 +1,7 @@
 {
     "books": [
         {
-            "isbn": "978-3-16-148410-0",
+            "isbn": "978-3-16-142410-0",
             "title": "Pride and prejudice",
             "author": "John Doe",
             "price": 12.2,
@@ -13,6 +13,55 @@
             "author": "John Doe",
             "price": 12.2,
             "quantity_in_stock": 5
+        },
+        {
+            "isbn": "978-0-00-002000-1",
+            "title": "To Kill a Mockingbird",
+            "author": "Harper Lee",
+            "price": 10.99,
+            "quantity_in_stock": 20
+        },
+        {
+            "isbn": "978-0-06-112078-4",
+            "title": "1984",
+            "author": "George Orwell",
+            "price": 9.99,
+            "quantity_in_stock": 15
+        },
+        {
+            "isbn": "978-1-250-12121-8",
+            "title": "The Great Gatsby",
+            "author": "F. Scott Fitzgerald",
+            "price": 11.49,
+            "quantity_in_stock": 12
+        },
+        {
+            "isbn": "978-0-385-24283-7",
+            "title": "To Kill a Mockingbird",
+            "author": "Harper Lee",
+            "price": 10.99,
+            "quantity_in_stock": 18
+        },
+        {
+            "isbn": "978-0-245-80410-1",
+            "title": "The Catcher in the Rye",
+            "author": "J.D. Salinger",
+            "price": 8.95,
+            "quantity_in_stock": 14
+        },
+        {
+            "isbn": "978-0-479-60132-6",
+            "title": "Brave New World",
+            "author": "Aldous Huxley",
+            "price": 12.99,
+            "quantity_in_stock": 10
+        },
+        {
+            "isbn": "978-0-432-86914-1",
+            "title": "The Hunger Games",
+            "author": "Suzanne Collins",
+            "price": 7.99,
+            "quantity_in_stock": 25
         }
     ]
 }

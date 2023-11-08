@@ -99,7 +99,7 @@ class Inventory:
         isbn_encountered = []
         for book_dict in books_object:
             isbn = book_dict["isbn"]
-            if isbn in isbn_encountered:
+            if isbn not in isbn_encountered:
                 self.books.append(Book.create_book_from_dict(book_dict))
             else:
                 print(f"Info: duplicate ISBN:{isbn}, skipping")
