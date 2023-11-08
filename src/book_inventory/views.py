@@ -14,8 +14,10 @@ def camel_to_sentence(camel_str):
 class TkinterWindow:
 
     def __init__(self, width, height):
+        # Initializes the main window of the Tkinter application. It sets up
+        # the window geometry, title, controllers, inventory, and initializes various
+        # components and functions related to the book listing interface.
         self.root = tk.Tk()
-        self.set_geometry_center(self.root, width, height)
         self.root.title('Book listing')
 
         self.deletion_item_index = -1
@@ -29,6 +31,8 @@ class TkinterWindow:
         self.deletion_item = ""
 
     def get_all_items(self):
+        # Retrieves all book items from the book controller and stores them in
+        # an attribute for further use.
         self.index_items = self.book_controller.index()
 
     def load_items_to_treeview(self, items):
@@ -57,6 +61,7 @@ class TkinterWindow:
         messagebox.showerror("Info", text)
 
     def open(self) -> None:
+        # Opens the main window and runs the Tkinter main event loop.
         self.add_top_frame()
         self.add_table()
         self.root.mainloop()
@@ -74,6 +79,9 @@ class TkinterWindow:
         return entry
 
     def add_form(self, parent, entry_names) -> tk.Frame:
+
+        # Creates a form in the specified parent widget with entry fields
+        # for each name in the entry_names list.
         form_frame = tk.Frame(self.top_frame, width=100)
         entry_frame = tk.Frame(self.root, width=600, pady=10)
         add_form_entries = []
@@ -112,20 +120,13 @@ class TkinterWindow:
         self.add_action_frame()
 
     def add_action_frame(self):
+        # Adds and configures the action frame within the top frame for
+        # various search and action functionalities.
         action_frame = tk.Frame(self.top_frame, width=100)
         action_frame.pack(side=tk.TOP)
 
         self.isbn_search_bar = self.create_search_bar(action_frame,
                                                       "Search by isbn")
-        # action_frame = tk.Frame(entry_frame)
-        # self.add_action_button(action_frame,
-        #                        "Delete",
-        #                        self.on_item_delete,
-        #                        side="left")
-        # self.add_action_button(action_frame,
-        #                        "Add",
-        #                        self.on_item_add,
-        #                        side="left")
 
         self.add_action_button(action_frame, "Search", self.on_search_by_isbn)
 
@@ -138,6 +139,7 @@ class TkinterWindow:
 
     def add_table(self):
 
+        # Adds and configures a table (TreeView widget) to display book items.
         self.frame = tk.Frame(self.root, pady=10)
         y_scroll = tk.Scrollbar(self.frame)
         y_scroll.pack(side=tk.RIGHT, fill=tk.Y)
@@ -204,6 +206,3 @@ class TkinterWindow:
             self.deletion_item = None
             self.deletion_item_index = -1
             self.deletion_item_isbn = ""
-
-    def on_frame_configure(self, event):
-        self.canvas.configure(scrollregion=self.canvas.bbox("all"))

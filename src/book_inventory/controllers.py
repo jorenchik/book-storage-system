@@ -4,6 +4,8 @@ from book_inventory.models import Book
 class BookController:
 
     def __init__(self, inventory):
+        # Initializes the BookController with a given inventory and loads the
+        # inventory data from a JSON file.
         self.inventory = inventory
         self.inventory.load_json_from_storage()
 
@@ -26,6 +28,8 @@ class BookController:
         return results
 
     def index(self) -> list[Book]:
+        # Returns a list of all books in the inventory, with each book's data
+        # represented as a list of values corresponding to the book's attributes.
         books_to_print = self.inventory.books
         book_list = []
         for book in books_to_print:
@@ -37,4 +41,5 @@ class BookController:
         return book_list
 
     def delete(self, key: str) -> None:
+        # Deletes a book from the inventory based on a given key, typically the ISBN.
         self.inventory.delete(key)

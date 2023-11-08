@@ -24,6 +24,8 @@ class Book:
         return tuple(values)
 
     def __init__(self, isbn, title, author, price, quantity_in_stock):
+        # Initializes a new Book instance with the provided details, performs
+        # validations, and formats the ISBN.
         self.isbn = str(isbn)
         self.title = title
         self.author = author
@@ -45,6 +47,8 @@ class Book:
 
     @classmethod
     def search_by_attributes(cls, prompt, books, attribute_list) -> list:
+        # Searches for books in a given list that match the provided prompt in
+        # the specified attributes.
         results = []
         for book in books:
             for attr in attribute_list:
@@ -85,15 +89,14 @@ class Inventory:
     def __init__(self):
         self.books: list[Book] = []
 
-    # TODO: test
     def get_file_contents(self, filename: str) -> str:
         book_path = Path(filename)
         with open(book_path) as f:
             file_contents = f.read()
         return file_contents
 
-    # TODO: test
     def load_json_from_storage(self, filename=JSON_STORAGE_FILENAME) -> None:
+        # Updates a book in the inventory with a new version based on its ISBN.
         json: str = self.get_file_contents(filename)
         json_object = loads(json)
         books_object = json_object['books']
@@ -107,6 +110,7 @@ class Inventory:
             isbn_encountered.append(isbn)
 
     def delete(self, key: str) -> None:
+        # Removes a book from the inventory based on a given key.
         book_to_remove = self.find_one_book(key, ["isbn"])
         self.books.remove(book_to_remove)
 
@@ -114,7 +118,6 @@ class Inventory:
         results = Book.search_by_attributes(key, self.books, attributes)
         count = len(results)
         if count < 1:
-            print(count)
             raise ValueError("Book was not found")
         if count > 1:
             raise ValueError(f"More than one book is found: {count}")
@@ -126,6 +129,7 @@ class Inventory:
         return isbn not in [book.isbn for book in self.books]
 
     def update(self, isbn: str, updated_book: Book) -> None:
+        # Updates a book in the inventory with a new version based on its ISBN.
         to_update_book = self.find_one_book(isbn, ["isbn"])
         update_index = self.books.index(to_update_book)
         self.books[update_index] = updated_book
