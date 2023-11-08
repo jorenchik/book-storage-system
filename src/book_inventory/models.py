@@ -1,5 +1,5 @@
 from __future__ import annotations
-from re import match
+from re import match, sub
 from pathlib import Path
 from json import loads
 
@@ -31,6 +31,7 @@ class Book:
         self.quantity_in_stock = quantity_in_stock
         if not self.validate_isbn(self.isbn):
             raise TypeError("Wrong ISBN format")
+        self.isbn = sub(r'-', '', self.isbn)
         self.validate_length("title", 0, 100)
         self.validate_length("author", 0, 100)
         try:
@@ -95,8 +96,14 @@ class Inventory:
         json: str = self.get_file_contents(filename)
         json_object = loads(json)
         books_object = json_object['books']
+        isbn_encountered = []
         for book_dict in books_object:
-            self.books.append(Book.create_book_from_dict(book_dict))
+            isbn = book_dict["isbn"]
+            if isbn in isbn_encountered:
+                self.books.append(Book.create_book_from_dict(book_dict))
+            else:
+                print(f"Info: duplicate ISBN:{isbn}, skipping")
+            isbn_encountered.append(isbn)
 
     def delete(self, key: str) -> None:
         book_to_remove = self.find_one_book(key, ["isbn"])
