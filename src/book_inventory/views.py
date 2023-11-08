@@ -1,13 +1,7 @@
-from typing import Dict
 from .models import Book
-from tabulate import tabulate
 import tkinter as tk
-from tkinter.messagebox import showinfo
-from tksheet import Sheet
-from tkinter import Entry, END
-from book_inventory.models import Book
+from tkinter import ttk
 import re
-from commands import IndexBooksCommand
 from controllers import BookController
 from models import Inventory
 
@@ -17,58 +11,39 @@ def camel_to_sentence(camel_str):
     return sentence_str[0].upper() + sentence_str[1:]
 
 
-class BookViewCLI:
-
-    def input_book_data(self) -> Dict:
-        isbn: str = input("Enter the ISBN:")
-        title: str = input("Enter the TITLE:")
-        author: str = input("Enter the AUTHOR:")
-        price: str = input("Enter the PRICE:")
-        quantity_in_stock: str = input("Enter the QUANTITY:")
-        return isbn, title, author, price, quantity_in_stock
-
-    def print_books(self, books) -> None:
-        table = []
-        for i, book in enumerate(books):
-            tr = []
-            for key in Book.__slots__:
-                tr.append(getattr(book, key))
-            table.append(tr)
-
-        print(
-            tabulate(table,
-                     headers=Book.__slots__,
-                     tablefmt='psql',
-                     showindex=False))
-
-
 class TkinterWindow:
 
-    def __init__(self):
+    def __init__(self, width, height):
         self.root = tk.Tk()
-        width = 500
-        height = 600
-        screen_width = self.root.winfo_screenwidth()  # Width of the screen
-        screen_height = self.root.winfo_screenheight()  # Height of the screen
-        self.entries = []
+        self.set_geometry_center(self.root, width, height)
+        self.root.title('Book listing')
+
+        self.deletion_item_index = -1
+        self.deletion_item = None
+        self.deletion_item_isbn = ""
+
         self.book_controller = BookController(Inventory())
         self.inventory = Inventory()
-        self.lst = self.book_controller.index()
-
+        self.add_form_entries = []
+        self.load_items()
         self.deletion_item = ""
 
+    def load_items(self):
+        self.index_items = self.book_controller.index()
+
+    def set_geometry_center(self, target, width, height):
+        screen_width = self.root.winfo_screenwidth()  # Width of the screen
+        screen_height = self.root.winfo_screenheight()  # Height of the screen
         # Calculate Starting X and Y coordinates for Window
         x = (screen_width / 2) - (width / 2)
         y = (screen_height / 2) - (height / 2)
-        self.root.geometry('%dx%d+%d+%d' % (width, height, 500, 500))
-        self.root.title('Book listing')
-
-        self.add_table()
+        target.geometry('%dx%d+%d+%d' % (width, height, x, y))
 
     def popup_showinfo(self):
         tk.messagebox.showinfo("Info", "Book has been deleted!")
 
     def open(self) -> None:
+        self.add_table()
         self.root.mainloop()
 
     def add_label(self, frame, name, side) -> None:
@@ -86,13 +61,14 @@ class TkinterWindow:
         form_frame = tk.Frame(self.top_frame, width=100)
         self.entry_frame = tk.Frame(self.root, width=600, pady=10)
         for slot in entry_names:
-            self.entries.append(self.add_entry(self.entry_frame, slot))
+            self.add_form_entries.append(self.add_entry(
+                self.entry_frame, slot))
         self.entry_frame.pack()
         form_frame.pack(side=tk.TOP)
         return form_frame
 
     def add_action_button(self, parent, text, bind):
-        delete_button = tk.ttk.Button(self.button_frame, text=text)
+        delete_button = ttk.Button(self.button_frame, text=text)
         delete_button.pack(side=tk.LEFT, padx=10)
         delete_button.bind("<Button-1>", bind)
 
@@ -141,7 +117,7 @@ class TkinterWindow:
             self.tree_view.column(column, anchor=tk.CENTER, width=140)
         for column in self.tree_view["columns"]:
             self.tree_view.heading(column, text=column, anchor=tk.CENTER)
-        for i, value_list in enumerate(self.lst):
+        for i, value_list in enumerate(self.index_items):
             self.tree_view.insert(parent='',
                                   index='end',
                                   iid=i,
@@ -158,6 +134,7 @@ class TkinterWindow:
     def on_item_delete(self, event):
         if self.deletion_item_index != -1:
             self.tree_view.delete(self.deletion_item_index)
+            self.book_controller.delete(self.deletion_item_isbn)
 
     def on_search_by_isbn(self, event):
         print("search_by_isbn:")
@@ -177,7 +154,3 @@ class TkinterWindow:
 
     def on_frame_configure(self, event):
         self.canvas.configure(scrollregion=self.canvas.bbox("all"))
-
-
-class BookViewGUI:
-    pass

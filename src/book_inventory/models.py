@@ -31,7 +31,6 @@ class Book:
             for attr in attribute_list:
                 if str(getattr(book, attr)).__contains__(str(prompt)):
                     results.append(book)
-                    break
         return results
 
     @classmethod
@@ -89,6 +88,7 @@ class Inventory:
         results = Book.search_by_attributes(key, self.books, attributes)
         count = len(results)
         if count < 1:
+            print(count)
             raise ValueError("Book was not found")
         if count > 1:
             raise ValueError(f"More than one book is found: {count}")

@@ -35,5 +35,4 @@ class BookController:
         return book_list
 
     def delete(self, key: str) -> None:
-        if not self.model.delete(key):
-            raise ValueError("Book not found")
+        self.inventory.delete(key)
